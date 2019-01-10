@@ -36,7 +36,7 @@ Activate the camera of the Pi by entering the following command:
 ```
 sudo raspi-config
 ```
-Select **5 Interfacing Options** -> **P1 Camera** the reboot the Pi
+Select **5 Interfacing Options** -> **P1 Camera** then reboot the Pi
 ```
 sudo reboot
 ```
@@ -89,3 +89,29 @@ sudo systemctl restart 'snips-*'
 ```
 
 You are ready to go!
+  
+To check if everything works, do:
+```
+journalctl -f -u snips-skill-server
+```
+You should see this something like this:
+```
+janv. 10 17:38:30 raspberrypi snips-skill-server[30535]: INFO:snips_skill_server_lib::runner: [food][out] Done
+janv. 10 17:38:30 raspberrypi snips-skill-server[30535]: INFO:snips_skill_server_lib::runner: [food][out] Loading graph
+janv. 10 17:38:30 raspberrypi snips-skill-server[30535]: INFO:snips_skill_server_lib::runner: [food][out] Done
+janv. 10 17:38:30 raspberrypi snips-skill-server[30535]: INFO:snips_skill_server_lib::runner: [food][out] Setting camera parameters
+janv. 10 17:38:31 raspberrypi snips-skill-server[30535]: INFO:snips_skill_server_lib::runner: [food][out] Done
+janv. 10 17:38:31 raspberrypi snips-skill-server[30535]: INFO:snips_skill_server_lib::runner: [food][out] Warming up the camera
+janv. 10 17:38:33 raspberrypi snips-skill-server[30535]: INFO:snips_skill_server_lib::runner: [food][out] Done
+janv. 10 17:38:33 raspberrypi snips-skill-server[30535]: INFO:snips_skill_server_lib::runner: [food][out] Reading config file
+janv. 10 17:38:33 raspberrypi snips-skill-server[30535]: INFO:snips_skill_server_lib::runner: [food][err] ./action-food.py:34: DeprecationWarning: The SafeConfigParser class has been renamed to ConfigParser in Python 3.2. This alias will b
+janv. 10 17:38:33 raspberrypi snips-skill-server[30535]: INFO:snips_skill_server_lib::runner: [food][err]   conf_parser = SnipsConfigParser()
+janv. 10 17:38:33 raspberrypi snips-skill-server[30535]: INFO:snips_skill_server_lib::runner: [food][err] ./action-food.py:35: DeprecationWarning: This method will be removed in future versions.  Use 'parser.read_file()' instead.
+janv. 10 17:38:33 raspberrypi snips-skill-server[30535]: INFO:snips_skill_server_lib::runner: [food][err]   conf_parser.readfp(f)
+janv. 10 17:38:33 raspberrypi snips-skill-server[30535]: INFO:snips_skill_server_lib::runner: [food][out] Done
+janv. 10 17:38:33 raspberrypi snips-skill-server[30535]: INFO:snips_skill_server_lib::runner: [food][out] Greengrass is not enabled
+```
+
+
+# Troubleshoot
+by doing
