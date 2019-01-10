@@ -29,31 +29,63 @@ make install
 ``` 
   
 To check if everything works go in the *ncsdk/examples/apps/hello_ncs_py/* folder and run the *hello_ncs.py* script.
+
+## Pi Camera (if you are using it)
+
+Activate the camera of the Pi by entering the following command:
+```
+sudo raspi-config
+```
+Select **5 Interfacing Options** -> **P1 Camera** the reboot the Pi
+```
+sudo reboot
+```
   
+You now need to give access to everyone to the folder */dev/vchiq*, so that the virtual environment can access the cameras images.
+```
+sudo chmod 777 /dev/vchiq
+```
 ## CV2
   
 To use this skill you will need to install the following packages and libraries.
 ```
-sudo apt-get install python-opencv
-```
-Now activate the virtual environment of the mvnc:
-```
-source /opt/movidius/virtualenv-python/bin/activate
-```
-Then install this package
-```
-pip install opencv-python==3.3.0.10 --user
-```
-And finally install these libraries
-```
-sudo apt-get install libjasper-dev
-
-sudo apt-get install libqtgui4
-
-sudo apt-get install libqt4-test
+sudo apt-get install python-opencv libjasper-dev libqtgui4 libqt4-test
 ```
 That is all for this.  
   
 ## Greengrass (not mandatory)
 
-to do
+We will assume that your Greengrass group is already created and a core device is also created.
+Transfer your certificate and greengrass core zip files to the Pi.
+Unzip the files as explained in the tutorial of Greengrass.
+Now create a new Thing in the AWS IoT Hub and download the certificates. Including the root certificate of Amazon.
+Open th file *config.ini* in the */var/lib/snips/skills/burger-salad-snips-skill* folder.  
+You should see this:
+```
+[global]
+extra=false
+greengrass=false
+[secret]
+[greengrass]
+# The endpoint
+host=
+# Path to the Amazon root certificate
+rootca=
+# Path to the thing certificate
+certpath=
+# Path to the private key of the thing
+privatekeypath=
+# Name of the thing
+thingname=
+# Number of attempts to discover a greengrass core.
+maxretires=
+```
+To use greengrass put the **greengrass=false** setting to **true**.
+Now fill in the empty settings. The comments will help you know what you need to put.
+
+Once every settings filled in restart snips services:
+```
+sudo systemctl restart 'snips-*'
+```
+
+You are ready to go!

@@ -4,7 +4,6 @@ mkdir -p venv/bin/
 ln -s /opt/movidius/virtualenv-python/bin/activate venv/bin/activate
 . venv/bin/activate
 echo "installing dependencies"
-pip install -r requirements
+sudo pip3 install -r requirements
 echo "done"
 deactivate
-

@@ -2,12 +2,12 @@
 # -*-: coding utf-8 -*-
 
 import configparser
-from hermes_python.hermes import Hermes
-from utils import message
-from utils import GGConnect
 import io
 import queue
 from foodinference.foodinference import FoodInference
+from hermes_python.hermes import Hermes
+from utils import message
+from utils import GGConnect
 
 CONFIGURATION_ENCODING_FORMAT = "utf-8"
 CONFIG_INI = "config.ini"
@@ -18,9 +18,9 @@ MQTT_ADDR = "{}:{}".format(MQTT_IP_ADDR, str(MQTT_PORT))
 
 SKILL_MESSAGES = {
     'fr': {
-        "burger": "C'est un hamburger",
-        "salad": "C'est une salade",
-        "other": "C'est quelque chose",
+        "burger": "Je vois un hamburger",
+        "salad": "Je vois une salade",
+        "other": "Je vois rien, à l'aide.",
     }
 }
 
@@ -61,7 +61,6 @@ class Skill:
 
 def callback(hermes, intent_message):
     result = hermes.skill.food.infer()
-    print(result)
     hermes.publish_end_session(intent_message.session_id, hermes.skill.message.get(result))
     
 if __name__ == "__main__":
