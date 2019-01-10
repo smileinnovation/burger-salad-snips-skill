@@ -2,12 +2,12 @@
 # -*-: coding utf-8 -*-
 
 import configparser
-from foodinference.foodinference import FoodInference
 from hermes_python.hermes import Hermes
 from utils import message
 from utils import GGConnect
 import io
 import queue
+from foodinference.foodinference import FoodInference
 
 CONFIGURATION_ENCODING_FORMAT = "utf-8"
 CONFIG_INI = "config.ini"
