@@ -28,7 +28,7 @@ For this skill to work you will need to install beforehand a few libraries.
 
 ## Change language
   
-To change the language (by default it is in english) to french for example, open the `config.ini` file in the repository `/var/lib/snips/skills/burger-salad-snips-skill`.
+To change the language (by default it is in english) to french for example, open the `config.ini` file in the folder `/var/lib/snips/skills/burger-salad-snips-skill`.
 Replace `lang=en` to `lang=fr` and restart snips:
 ```
 $> sudo systemctl restart 'snips-*'
