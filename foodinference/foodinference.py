@@ -9,6 +9,7 @@ class FoodInference:
     @classmethod
     def __init__(self, gg=None):
         self.gg = gg
+        self.isOn = False
         
     @classmethod
     def infer(self):

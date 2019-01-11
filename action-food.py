@@ -16,8 +16,28 @@ MQTT_IP_ADDR = "localhost"
 MQTT_PORT = 1883
 MQTT_ADDR = "{}:{}".format(MQTT_IP_ADDR, str(MQTT_PORT))
 
+ALL_INTENTS = ["segar:quoi","segar:stop","segar:again","segar:start"]
+
 SKILL_MESSAGES = {
     'fr': {
+        "encore":[
+            "Vous voulez que je regarde à nouveau ?",
+            "Je peux refaire une analyse si vous le voulez.",
+            "Je refait une analyse ?"
+        ],
+        "again":[
+            "Ok, mettez un plat près de mon oeil",
+            "J'attends vos ordres",
+            "ok, c'est reparti. Dites moi quand je dois analyser"
+        ]
+        "stop":[
+            "Aurevoir !",
+            "A bientôt !"
+        ],
+        "start":[
+            "Je vai analyser votre plat ! Mettez le sous mon oeil",
+            "Je peux analyser votre plat ! placez le plat sous la camera et dites moi quand je peux analyser"
+        ],
         "burger": "Je vois un hamburger",
         "salad": "Je vois une salade",
         "other": "Je vois rien, à l'aide.",
@@ -59,12 +79,45 @@ class Skill:
             print("Greengrass is not enabled")
             self.food = FoodInference()
 
+def loop_new_question(hermes, order):
+    hermes.publish_start_session_action('default', self.messages.get(order), ALL_INTENTS, True, custom_data=None)
+            
+def end(hermes, order):
+    hermes.publish_end_session(intent_message.session_id, hermes.skill.message.get(order))
+
 def callback(hermes, intent_message):
-    result = hermes.skill.food.infer()
-    hermes.publish_end_session(intent_message.session_id, hermes.skill.message.get(result))
+    if hermes.skill.food.isOn:
+        result = hermes.skill.food.infer()
+        hermes.publish_continue_session(intent_message.session_id, hermes.skill.message.get(result))
+        loop_new_question(hermes, "encore")
+    else:
+        end(hermes, "unknown")
     
+def again(hermes, intent_message):
+    if hermes.skill.food.isOn:
+        loop_new_question(hermes, "again")
+    else:
+        end(hermes, "unknown")
+
+def over(hermes, intent_message):
+    if hermes.skill.food.isOn:
+        end(hermes, "stop")
+    else:
+        end(hermes, "unknown")
+        
+def startAssistant(hermes, intent_message):
+    if hermes.skill.food.isOn:
+        hermes.skill.food.isOn = True
+        loop_new_question(hermes, "start")
+    else:
+        end(hermes, "unknown")
+        
 if __name__ == "__main__":
     skill = Skill()
     with Hermes(MQTT_ADDR) as h:
         h.skill = skill
-        h.subscribe_intent("segar:quoi", callback).loop_forever()
+        h.subscribe_intent("segar:quoi", callback)\
+         .subscribe_intent("segar:stop", over)\
+         .subscribe_intent("segar:again", again)\
+         .subscribe_intent("segar:start", startAssistant)\
+         .loop_forever()
