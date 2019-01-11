@@ -35,7 +35,7 @@ SKILL_MESSAGES = {
             "A bientôt !"
         ],
         "start":[
-            "Je vai analyser votre plat ! Mettez le sous mon oeil",
+            "Je vais analyser votre plat ! Mettez le sous mon oeil",
             "Je peux analyser votre plat ! placez le plat sous la camera et dites moi quand je peux analyser"
         ],
         "unknown":[
@@ -49,6 +49,37 @@ SKILL_MESSAGES = {
         "burger": "Je vois un hamburger",
         "salad": "Je vois une salade",
         "other": "Je vois rien, à l'aide.",
+    },
+    'en': {
+        "encore":[
+            "You want me to look again?",
+            "I can analyze it again if you want",
+            "Should I make an other analyze"
+        ],
+        "again":[
+            "Ok, put a dish near my eye",
+            "Awaiting orders",
+            "ok, here we go again, tell me when you are ready"
+        ],
+        "stop":[
+            "Bye",
+            "See you soon"
+        ],
+        "start":[
+            "I will analyze your plate, put it under my eye",
+            "I can analyze your dish ! Tell me when you're ready"
+        ],
+        "unknown":[
+            "I didn't understand",
+            "I don't understand that command"
+        ],
+        "ok":[
+            "ok",
+            "a moment please"
+        ],
+        "burger": "I see a burger",
+        "salad": "I see a salad",
+        "other": "I can't see anything, help.",
     }
 }
 
@@ -71,8 +102,9 @@ class Skill:
         config = read_configuration_file("config.ini")
         print("Done")
         extra = config["global"].get("extra", False)
+        lang = config["global"].get("lang", "en")
         greengrass = config["global"].get("greengrass", False)
-        self.message = message.Message(SKILL_MESSAGES, 'fr')
+        self.message = message.Message(SKILL_MESSAGES, lang)
         if greengrass == "true":
             print("Greengrass is enabled")
             ggConnect = GGConnect.GGConnect(config["greengrass"].get("host", None),
@@ -88,7 +120,7 @@ class Skill:
             self.food = FoodInference()
 
 def loop_new_question(hermes, order):
-    hermes.publish_start_session_action('default', hermes.skill.message.get(order), ALL_INTENTS, True, custom_data=None, session_init_send_intent_not_recognized=None)
+    hermes.publish_start_session_action('default', hermes.skill.message.get(order), ALL_INTENTS, True, custom_data=None, session_init_send_intent_not_recognized=hermes.skill.message.get("unknown"))
             
 def end(hermes, order, intent_message):
     hermes.publish_end_session(intent_message.session_id, hermes.skill.message.get(order))
@@ -132,7 +164,7 @@ if __name__ == "__main__":
     skill = Skill()
     with Hermes(MQTT_ADDR) as h:
         h.skill = skill
-        h.subscribe_intent("segar:quoi", callback)\
+        h.subscribe_intent("segar:what", callback)\
          .subscribe_intent("segar:stop", over)\
          .subscribe_intent("segar:again", again)\
          .subscribe_intent("segar:start", startAssistant)\
