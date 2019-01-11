@@ -97,20 +97,20 @@ def again(hermes, intent_message):
     if hermes.skill.food.isOn:
         loop_new_question(hermes, "again")
     else:
-        end(hermes, "unknown", end_message)
+        end(hermes, "unknown", intent_message)
 
 def over(hermes, intent_message):
     if hermes.skill.food.isOn:
-        end(hermes, "stop", end_message)
+        end(hermes, "stop", intent_message)
     else:
-        end(hermes, "unknown", end_message)
+        end(hermes, "unknown", intent_message)
         
 def startAssistant(hermes, intent_message):
     if hermes.skill.food.isOn:
         hermes.skill.food.isOn = True
         loop_new_question(hermes, "start")
     else:
-        end(hermes, "unknown", end_message)
+        end(hermes, "unknown", intent_message)
         
 if __name__ == "__main__":
     skill = Skill()
