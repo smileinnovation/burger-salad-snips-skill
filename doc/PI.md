@@ -19,7 +19,10 @@ Now you should reboot, if it asks you, select yes if it doesn't, do this command
 ```
 sudo reboot
 ```
-Once you rebooted you need to give access to the folder 
+Once you rebooted you need to give access to the folder `/dev/vchiq`. For that write this command:
+```
+sudo chmod 777 /dev/vchiq
+```
 Once rebooted open up a terminal and write:
 ```
 ifconfig

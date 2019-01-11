@@ -20,4 +20,6 @@ Once logged in install your assistant with either the [french](https://console.s
 ```
 $> sam install assistant
 ```
-Select the assistant.
+Select the assistant.  
+You are done !
+If you want to work with a greengrass core follow [this tutorial](./GREENGRASS.md "Greengrass setup")

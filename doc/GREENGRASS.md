@@ -1,9 +1,9 @@
 #Greengrass
 We will assume that your Greengrass group is already created and a core device is also created.
 Now create a new Thing in the AWS IoT Hub and download the certificates. Including the root certificate of Amazon.
-Open th file `config.ini` in the `/var/lib/snips/skills/burger-salad-snips-skill` folder.
+*Don't forget to add a subscription from your thing to your Greengrass Core or your IoT Hub.*  
+Open the file `config.ini` in the `/var/lib/snips/skills/burger-salad-snips-skill` folder.
 You should see this:
-
 ```
 [global]
 extra=false
@@ -25,15 +25,12 @@ thingname=
 maxretires=
 ```
 To use greengrass put the `greengrass=false` setting to `true`.
-Now fill in the empty settings. The comments will help you know what you need to put.
-
+Now fill in the empty settings. The comments will help you know what you need to put.  
 Once every settings filled in, restart snips services:
 ```
 sudo systemctl restart 'snips-*'
 ```
-
-You are ready to go!
-
+You are ready to go!  
 To check if everything works, do:
 ```
 journalctl -f -u snips-skill-server
