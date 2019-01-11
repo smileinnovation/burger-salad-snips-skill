@@ -38,6 +38,10 @@ SKILL_MESSAGES = {
             "Je vai analyser votre plat ! Mettez le sous mon oeil",
             "Je peux analyser votre plat ! placez le plat sous la camera et dites moi quand je peux analyser"
         ],
+        "unknown":[
+            "J'ai pas compris",
+            "Je ne connais pas cette commande"
+        ],
         "burger": "Je vois un hamburger",
         "salad": "Je vois une salade",
         "other": "Je vois rien, à l'aide.",
@@ -80,7 +84,7 @@ class Skill:
             self.food = FoodInference()
 
 def loop_new_question(hermes, order):
-    hermes.publish_start_session_action('default', self.messages.get(order), ALL_INTENTS, True, custom_data=None)
+    hermes.publish_start_session_action('default', hermes.skill.message.get(order), ALL_INTENTS, True, custom_data=None, session_init_send_intent_not_recognized=None)
             
 def end(hermes, order, intent_message):
     hermes.publish_end_session(intent_message.session_id, hermes.skill.message.get(order))
@@ -88,7 +92,7 @@ def end(hermes, order, intent_message):
 def callback(hermes, intent_message):
     if hermes.skill.food.isOn:
         result = hermes.skill.food.infer()
-        hermes.publish_continue_session(intent_message.session_id, hermes.skill.message.get(result))
+        hermes.publish_end_session(intent_message.session_id, hermes.skill.message.get(result))
         loop_new_question(hermes, "encore")
     else:
         end(hermes, "unknown", intent_message)
@@ -106,7 +110,7 @@ def over(hermes, intent_message):
         end(hermes, "unknown", intent_message)
         
 def startAssistant(hermes, intent_message):
-    if hermes.skill.food.isOn:
+    if not hermes.skill.food.isOn:
         hermes.skill.food.isOn = True
         loop_new_question(hermes, "start")
     else:
