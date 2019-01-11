@@ -29,7 +29,7 @@ SKILL_MESSAGES = {
             "Ok, mettez un plat près de mon oeil",
             "J'attends vos ordres",
             "ok, c'est reparti. Dites moi quand je dois analyser"
-        ]
+        ],
         "stop":[
             "Aurevoir !",
             "A bientôt !"
