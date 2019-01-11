@@ -82,7 +82,7 @@ class Skill:
 def loop_new_question(hermes, order):
     hermes.publish_start_session_action('default', self.messages.get(order), ALL_INTENTS, True, custom_data=None)
             
-def end(hermes, order):
+def end(hermes, order, intent_message):
     hermes.publish_end_session(intent_message.session_id, hermes.skill.message.get(order))
 
 def callback(hermes, intent_message):
@@ -91,26 +91,26 @@ def callback(hermes, intent_message):
         hermes.publish_continue_session(intent_message.session_id, hermes.skill.message.get(result))
         loop_new_question(hermes, "encore")
     else:
-        end(hermes, "unknown")
+        end(hermes, "unknown", intent_message)
     
 def again(hermes, intent_message):
     if hermes.skill.food.isOn:
         loop_new_question(hermes, "again")
     else:
-        end(hermes, "unknown")
+        end(hermes, "unknown", end_message)
 
 def over(hermes, intent_message):
     if hermes.skill.food.isOn:
-        end(hermes, "stop")
+        end(hermes, "stop", end_message)
     else:
-        end(hermes, "unknown")
+        end(hermes, "unknown", end_message)
         
 def startAssistant(hermes, intent_message):
     if hermes.skill.food.isOn:
         hermes.skill.food.isOn = True
         loop_new_question(hermes, "start")
     else:
-        end(hermes, "unknown")
+        end(hermes, "unknown", end_message)
         
 if __name__ == "__main__":
     skill = Skill()
