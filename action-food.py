@@ -42,6 +42,10 @@ SKILL_MESSAGES = {
             "J'ai pas compris",
             "Je ne connais pas cette commande"
         ],
+        "ok":[
+            "ok",
+            "Un instant"
+        ],
         "burger": "Je vois un hamburger",
         "salad": "Je vois une salade",
         "other": "Je vois rien, à l'aide.",
@@ -90,6 +94,7 @@ def end(hermes, order, intent_message):
     hermes.publish_end_session(intent_message.session_id, hermes.skill.message.get(order))
 
 def callback(hermes, intent_message):
+    print("predict")
     if hermes.skill.food.isOn:
         result = hermes.skill.food.infer()
         hermes.publish_end_session(intent_message.session_id, hermes.skill.message.get(result))
@@ -98,20 +103,27 @@ def callback(hermes, intent_message):
         end(hermes, "unknown", intent_message)
     
 def again(hermes, intent_message):
+    print("again")
     if hermes.skill.food.isOn:
+        end(hermes, "ok", intent_message)
         loop_new_question(hermes, "again")
     else:
         end(hermes, "unknown", intent_message)
 
 def over(hermes, intent_message):
+    print("over")
     if hermes.skill.food.isOn:
+        hermes.skill.food.isOn = False
         end(hermes, "stop", intent_message)
     else:
         end(hermes, "unknown", intent_message)
         
 def startAssistant(hermes, intent_message):
+    print("activate")
     if not hermes.skill.food.isOn:
+        print("activated assistant")
         hermes.skill.food.isOn = True
+        end(hermes, "ok", intent_message)
         loop_new_question(hermes, "start")
     else:
         end(hermes, "unknown", intent_message)
