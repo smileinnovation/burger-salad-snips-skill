@@ -1,7 +1,14 @@
 # Burger Salad Snips Skill
   
-For this skill to work you will need to install beforehand a few libraries.  
+You can find [french](https://console.snips.ai/app-editor/skill_x7VKk0K00Nyv "French version of the assistant") and [english](https://console.snips.ai/app-editor/skill_x7Vo5Y9kExaq "English version of the assistant") versions of the assistant.
+  
+### How to use it
+Just say **"Hey snips, I want you to analyze something"** and it will prompt you with what you have to do ! Easy.
 
+# Installation notice
+  
+For this skill to work you will need to install beforehand a few libraries.  
+  
 ## Requirements
 
 - 1 Raspberry Pi 3 B
