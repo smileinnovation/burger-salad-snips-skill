@@ -114,7 +114,7 @@ class Skill:
                                             config["greengrass"].get("thingname", None),
                                             maxRetries=config["greengrass"].get("maxretires", 10))
             gg = ggConnect.connectToGG()
-            self.food = FoodInference(gg)
+            self.food = FoodInference(config["greengrass"].get("topic", None),gg)
         else:
             print("Greengrass is not enabled")
             self.food = FoodInference()

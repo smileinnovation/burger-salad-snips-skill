@@ -47,7 +47,7 @@ def load_graph(device):
     print("Done")
     return graph_buffer
 
-def capture(gg=None):
+def capture(topic=None, gg=None):
     print("Called capture()")
     stream = picamera.array.PiRGBArray(camera)
     camera.capture(stream, format='rgb', use_video_port=True)
@@ -63,8 +63,8 @@ def capture(gg=None):
     try:
         if gg is not None:
             messageJson = json.dumps("Sees a {0}".format(labels[output.argmax()]))
-            gg.publishAsync("gg/inference/food", messageJson, 0)
-            print('Published topic %s: %s' % ("gg/inference/food", messageJson))
+            gg.publishAsync(topic, messageJson, 0)
+            print('Published topic %s: %s' % (topic, messageJson))
             return labels[output.argmax()]
         else:
             return labels[output.argmax()]
