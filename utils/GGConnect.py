@@ -7,7 +7,7 @@ from AWSIoTPythonSDK.core.protocol.connection.cores import ProgressiveBackOffCor
 from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTClient
 from AWSIoTPythonSDK.exception.AWSIoTExceptions import DiscoveryInvalidRequestException
 
-GROUP_CA_PATH = "../certs/groupCA/"
+GROUP_CA_PATH = "./certs/groupCA/"
 
 # General message notification callback
 def customOnMessage(message):
