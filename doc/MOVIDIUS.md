@@ -1,11 +1,11 @@
 # Movidius setup
   
-First you need to connect to your Pi:
+On your computer, in a terminal, you need to connect to your Pi:
 ```
 ssh pi@<raspberry_ip_adress>
 ```
 Write `yes` if you are prompt with `The authenticity of host 'xxx.xxx.xxx.xxx (xxx.xxx.xxx.xxx)' can't be established.`.
-You should be in your Pi's home directory. We now will download the SDK:
+You should be in your Pi's home directory. We will now download the SDK for Movidius:
 ```
 git clone -b ncsdk2 http://github.com/Movidius/ncsdk && cd ncsdk
 ```
@@ -31,4 +31,4 @@ Hello NCS! Device opened normally.
 Goodbye NCS! Device closed normally.
 NCS device working.
 ```
-Next step [CV2 installation](./CV2.md "CV2 installation")
+Next [step](./CV2.md "CV2 installation")
