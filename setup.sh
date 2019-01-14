@@ -1,6 +1,6 @@
 #/usr/bin/env bash -e
 
-sudo usermod -a -G video $(whoami)
+sudo chmod 777 /dev/vchiq
 mkdir -p venv/bin/
 ln -s /opt/movidius/virtualenv-python/bin/activate venv/bin/activate
 . venv/bin/activate
