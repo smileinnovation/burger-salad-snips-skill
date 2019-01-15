@@ -14,7 +14,7 @@ For this skill to work you will need to install beforehand a few libraries.
 - 1 Raspberry Pi 3 B
 - 16 GB Micro SD card
 - Raspbian Stretch installed on the Raspberry Pi [tutorial here](https://www.raspberrypi.org/documentation/installation/installing-images/ "Raspbian Stretch installation tutorial")
-- 1 Movidius USB (V1 or V2)
+- 1 Movidius USB V1
 - 1 Raspberry Pi Camera V2.1
 - 1 Microphone
 - 1 Speaker
