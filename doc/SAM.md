@@ -21,5 +21,9 @@ Once logged in install your assistant with either the [french](https://console.s
 sam install assistant
 ```
 Select the assistant.  
-You are done !
+Now connect to your Pi once more with ssh and write this command. It will give snips writes to access the camera folder:
+```
+sudo usermod -a -G video _snips-skills
+```
+Reboot the Pi and you are done !  
 If you want to work with a greengrass core follow [this step](./GREENGRASS.md "Greengrass setup")
