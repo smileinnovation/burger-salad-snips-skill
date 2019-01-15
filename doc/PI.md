@@ -19,9 +19,9 @@ Now you should reboot, if it asks you, select yes if it doesn't, do this command
 ```
 sudo reboot
 ```
-Once you rebooted give access to the folder `/dev/vchiq` to everyone. For that write this command:
+Once you rebooted give access to the folder `/dev/vchiq` to Snips. For that, write this command:
 ```
-sudo chmod 777 /dev/vchiq
+sudo usermod -a -G video _snips-skills
 ```
 Once rebooted open up a terminal and write:
 ```
