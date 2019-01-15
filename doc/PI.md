@@ -19,10 +19,6 @@ Now you should reboot, if it asks you, select yes if it doesn't, do this command
 ```
 sudo reboot
 ```
-Once you rebooted give access to the folder `/dev/vchiq` to Snips. For that, write this command:
-```
-sudo usermod -a -G video _snips-skills
-```
 Once rebooted open up a terminal and write:
 ```
 ifconfig
