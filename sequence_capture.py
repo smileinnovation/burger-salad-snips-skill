@@ -1,83 +1,63 @@
-#!/usr/bin/env python3
-import os
-import cv2
+from io import BytesIO
+import cv2 as cv
 import sys
-import io
-import time
-import numpy
-import ntpath
-import argparse
+import numpy as np
 import picamera
 import picamera.array
-import mvnc.mvncapi as mvnc
-import threading
-import datetime
 import json
+import logging
 
 from utils import GGConnect
-from utils import visualize_output
-from utils import deserialize_output
 
-CONFIDANCE_THRESHOLD = 0.60 # 60% confidant
 ARGS                 = 244,244
 camera               = picamera.PiCamera()
-done = False
-lock = threading.Lock()
-pool = []
-labels = ["burger", "other", "salad"]
+MODEL = 'graphs/mobilenetv2_1_00_224_burger_salad_2'
 
-def open_ncs_device():
-    print("Searching for device")
-    devices = mvnc.enumerate_devices()
-    if len( devices ) == 0:
-        print( "No devices found" )
-        quit()
-    print("Found one")
-    device = mvnc.Device( devices[0] )
-    print("Accessing device")
-    device.open()
-    print("Done")
-    return device
+logging.getLogger().setLevel(logging.INFO)
 
-def load_graph(device):
-    print("Loading graph")
-    graph_filepath = './model/graph'
-    with open(graph_filepath, 'rb') as f:
-        graph_buffer = f.read()
-    print("Done")
-    return graph_buffer
+logging.info('Loading graph')
+net = cv.dnn.readNet(MODEL+'.xml', MODEL+'.bin')
+
+net.setPreferableBackend(cv.dnn.DNN_BACKEND_INFERENCE_ENGINE)
+net.setPreferableTarget(cv.dnn.DNN_TARGET_MYRIAD)
+
+# open classes definition
+classes = json.load(open(MODEL +'.json', 'r'))
+classes = { v:k for k, v in classes.items() }
+
+# make a first "forward" pass to make the model going in
+# the stick memory
+logging.info('Loading blank image to forward network once')
+blank = np.zeros((224, 224, 3), np.uint8)
+blank[:] = (255,255,255)
+blob = cv.dnn.blobFromImage(blank)
+net.setInput(blob)
+net.forward()
+logging.info('done')
 
 def capture(topic=None, gg=None):
-    print("Called capture()")
-    stream = picamera.array.PiRGBArray(camera)
-    camera.capture(stream, format='rgb', use_video_port=True)
-    stream.seek(0)
-    frame = stream.array
-    img = cv2.resize(frame, (224,224)).astype(numpy.float32)
-    img = numpy.array(img)
-    img = numpy.expand_dims(img, axis=0)
-    input_fifo.write_elem(img, None)
-    graph.queue_inference(input_fifo, output_fifo)
-    print("Predicting ...")
-    output, userobj = output_fifo.read_elem()
+    """
+    Will capture a picture from the Pi camera, resize it and infer on it.
+    """
+    camera.capture('foo.jpg')
+    img = cv.imread('foo.jpg')
+    img = cv.resize(img, (224,224))
+    blob = cv.dnn.blobFromImage(img, 1., (224, 224), (104, 117, 123), crop=False)
+    net.setInput(blob)
+    res = net.forward()
+    res = res.flatten()
+    print(res)
+    out = np.argmax(res)
     try:
         if gg is not None:
-            messageJson = json.dumps("Sees a {0}".format(labels[output.argmax()]))
+            messageJson = json.dumps("Sees a {0}".format(classes[out]))
             gg.publishAsync(topic, messageJson, 0)
             print('Published topic %s: %s' % (topic, messageJson))
             return labels[output.argmax()]
         else:
-            return labels[output.argmax()]
+            return classes[out]
     except:
         print(sys.exc_info()[1])
 
-device = open_ncs_device()
-graph = mvnc.Graph('graph1')
-input_fifo, output_fifo = graph.allocate_with_fifos(device, load_graph(device))
-print("Setting camera parameters")
 camera.framerate = 14
 camera.resolution = (640,480)
-print("Done")
-print("Warming up the camera")
-time.sleep(2)
-print("Done")
