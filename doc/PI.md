@@ -25,4 +25,4 @@ ifconfig
 ```
 Some text should show up, if you connected the Pi with the Wifi check the `inet` value at `wlan0` or `eth0` if you are connected with ethernet.
 That is your Pi IP adress, write it somewhere we will need it later.  
-Next [step](./MOVIDIUS.md "Movidius SDK installation").
+Next [step](./SAM.md "Movidius SDK installation").
