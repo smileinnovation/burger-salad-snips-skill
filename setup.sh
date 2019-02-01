@@ -12,6 +12,11 @@ then
         cd -
         mv /tmp/inference_engine_vpu_arm .
         rm -rf /tmp/l_openvino*
+	sudo cp "inference_engine_vpu_arm/deployment_tools/inference_engine/external/97-myriad-usbboot.rules" /etc/udev/rules.d/
+	sudo udevadm control --reload-rules
+	sudo udevadm trigger
+	sudo ldconfig
+	
     fi
 
     PYTHON=`which python3`
@@ -27,5 +32,3 @@ fi
 echo "Activating env"
 . $VENV/bin/activate
 pip3 install --no-cache-dir -r requirements
-
-
