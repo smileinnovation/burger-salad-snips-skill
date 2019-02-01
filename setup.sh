@@ -1,14 +1,31 @@
-#/usr/bin/env bash -e
+#! /bin/bash -xe
 
-mkdir -p OpenVINO
-cd OpenVINO
-wget https://download.01.org/openvinotoolkit/2018_R5/packages/l_openvino_toolkit_ie_p_2018.5.445.tgz
-tar xvf l_openvino_toolkit_ie_p_2018.5.445.tgz
-rm l_openvino_toolkit_ie_p_2018.5.445.tgz
-sed -i "s|<INSTALLDIR>|$(pwd)/inference_engine_vpu_arm|" inference_engine_vpu_arm/bin/setupvars.sh
-echo "source inference_engine_vpu_arm/bin/setupvars.sh" >> ~/.bashrc
-source inference_engine_vpu_arm/bin/setupvars.sh
-sh inference_engine_vpu_arm/install_dependencies/install_NCS_udev_rules.sh
-python3 -c 'import cv2; print(cv2.__version__)'
+VENV=venv
 
-sudo pip3 install -r requirements
+if [ ! -d "$VENV" ]
+then
+    # install openvino fro Raspberry Pi
+    if [ ! -d inference_engine_vpu_arm ]; then
+        cd /tmp
+        wget https://download.01.org/openvinotoolkit/2018_R5/packages/l_openvino_toolkit_ie_p_2018.5.445.tgz
+        tar xf l_openvino*.tgz
+        cd -
+        mv /tmp/inference_engine_vpu_arm .
+        rm -rf /tmp/l_openvino*
+    fi
+
+    PYTHON=`which python3`
+
+    if [ ! -f $PYTHON ]
+    then
+	echo "could not find python"
+    fi
+    $PYTHON -mvenv $VENV
+
+fi
+
+echo "Activating env"
+. $VENV/bin/activate
+pip3 install --no-cache-dir -r requirements
+
+

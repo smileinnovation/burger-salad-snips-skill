@@ -1,2 +1,4 @@
 AWSIoTPythonSDK
 hermes-python
+numpy
+picamera

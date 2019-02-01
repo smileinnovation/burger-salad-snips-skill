@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*-: coding utf-8 -*-
 
 import configparser
 import io
@@ -8,6 +7,7 @@ from foodinference.foodinference import FoodInference
 from hermes_python.hermes import Hermes
 from utils import message
 from utils import GGConnect
+
 
 CONFIGURATION_ENCODING_FORMAT = "utf-8"
 CONFIG_INI = "config.ini"

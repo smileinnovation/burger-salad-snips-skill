@@ -22,7 +22,6 @@ For this skill to work you will need to install beforehand a few libraries.
 ## Installation
 
 - [Raspberry Pi](./doc/PI.md "Pi OS installation and setup")
-- [Movidius](./doc/MOVIDIUS.md "Movidius installation and setup")
 - [Sam](./doc/SAM.md "sam installation")
 - [Greengrass](./doc/GREENGRASS.md "Greengrass setup") (optional)
 
