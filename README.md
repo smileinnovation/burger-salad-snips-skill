@@ -32,3 +32,14 @@ Replace `lang=en` to `lang=fr` and restart snips:
 ```
 $> sudo systemctl restart 'snips-*'
 ```
+## Know Issues
+    
+**Can not init USB device: NC_DEVICE_NOT_FOUND in function 'initPlugin'**: If you encounter this error first try to unplug and plug the USB device. If the error persists, you will need to do the following commands:  
+First go to the folder where the skill is (usually located at `/var/lib/snips/skills/burger-salad-snips-skill`)
+```
+$> sudo cp "inference_engine_vpu_arm/deployment_tools/inference_engine/external/97-myriad-usbboot.rules" /etc/udev/rules.d/
+$> sudo udevadm control --reload-rules
+$> sudo udevadm trigger
+$> sudo ldconfig
+```
+Now it should work.
