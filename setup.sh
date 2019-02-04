@@ -31,4 +31,4 @@ fi
 
 echo "Activating env"
 . $VENV/bin/activate
-pip3 install --no-cache-dir -r requirements
+pip3 install -r requirements
