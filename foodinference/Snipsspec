@@ -1,9 +1,0 @@
-package_name: foodinference
-class_name: FoodInference
-description: Food classification skill
-intents:
-  - intent: segar:quoi
-    action: |
-      {%
-      snips.skill.quoi(dialogue = snips.dialogue)
-      %}

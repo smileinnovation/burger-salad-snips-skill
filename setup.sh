@@ -1,5 +1,8 @@
 #! /bin/bash -xe
 
+sudo usermod -a -G video _snips-skills
+sudo usermod -a -G users _snips-skills
+
 VENV=venv
 
 if [ ! -d "$VENV" ]

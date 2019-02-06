@@ -2,7 +2,7 @@
 import sys
 import time
 import warnings
-import sequence_capture
+from utils import sequence_capture
 
 class FoodInference:
 
