@@ -7,7 +7,7 @@ import picamera.array
 import json
 import logging
 
-from utils import GGConnect
+import GGConnect
 
 ARGS                 = 244,244
 camera               = picamera.PiCamera()

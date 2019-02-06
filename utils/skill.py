@@ -10,7 +10,7 @@ from utils import GGConnect
 
 
 CONFIGURATION_ENCODING_FORMAT = "utf-8"
-CONFIG_INI = "config.ini"
+CONFIG_INI = "../config.ini"
 
 MQTT_IP_ADDR = "localhost"
 MQTT_PORT = 1883
