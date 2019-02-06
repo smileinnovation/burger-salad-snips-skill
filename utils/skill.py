@@ -3,7 +3,7 @@
 import configparser
 import io
 import queue
-from foodinference.foodinference import FoodInference
+from foodinference import FoodInference
 from hermes_python.hermes import Hermes
 from utils import message
 from utils import GGConnect
