@@ -5,8 +5,8 @@ import io
 import queue
 from foodinference import FoodInference
 from hermes_python.hermes import Hermes
-from utils import message
-from utils import GGConnect
+import message
+import GGConnect
 
 
 CONFIGURATION_ENCODING_FORMAT = "utf-8"
