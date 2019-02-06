@@ -1,5 +1,4 @@
 # SAM
-From now on the following steps are to be performed **IN YOUR COMPUTER** not in the Raspberry.  
 Follow [these steps](https://snips.gitbook.io/getting-started/installation "Installing sam") to install sam on your computer and connect it to the Pi.
 Once connected we will install snips to the Pi:
 ```
@@ -21,10 +20,6 @@ Once logged in install your assistant with either the [french](https://console.s
 sam install assistant
 ```
 Select the assistant.  
-Now connect to your Pi once more with ssh and write this command. It will give snips writes to access the camera folder:
-```
-sudo usermod -a -G video _snips-skills
-sudo usermod -a -G users _snips-skills
-```
-Reboot the Pi and you are done !  
-If you want to work with a greengrass core follow [this step](./GREENGRASS.md "Greengrass setup")
+If you want to work with Greengrass follow [this step](./GREENGRASS.md "Greengrass setup").  
+Previous [step](./PI.md "Pi setup")  
+[Menu](../README.md "Menu")

@@ -42,4 +42,10 @@ $> sudo udevadm control --reload-rules
 $> sudo udevadm trigger
 $> sudo ldconfig
 ```
-Now it should work.
+Now it should work.  
+**Could not access camera**: If you encounter this error, try these commands:  
+```
+sudo usermod -a -G video _snips-skills
+sudo usermod -a -G users _snips-skills
+```
+Restart the services and now it should work.

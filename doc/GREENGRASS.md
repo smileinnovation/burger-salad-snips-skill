@@ -37,12 +37,7 @@ journalctl -f -u snips-skill-server
 ```
 You should see this something like this:
 ```
-janv. 10 17:38:30 raspberrypi snips-skill-server[30535]: INFO:snips_skill_server_lib::runner: [food][out] Done
-janv. 10 17:38:30 raspberrypi snips-skill-server[30535]: INFO:snips_skill_server_lib::runner: [food][out] Loading graph
-janv. 10 17:38:30 raspberrypi snips-skill-server[30535]: INFO:snips_skill_server_lib::runner: [food][out] Done
-janv. 10 17:38:30 raspberrypi snips-skill-server[30535]: INFO:snips_skill_server_lib::runner: [food][out] Setting camera parameters
-janv. 10 17:38:31 raspberrypi snips-skill-server[30535]: INFO:snips_skill_server_lib::runner: [food][out] Done
-janv. 10 17:38:31 raspberrypi snips-skill-server[30535]: INFO:snips_skill_server_lib::runner: [food][out] Warming up the camera
-janv. 10 17:38:33 raspberrypi snips-skill-server[30535]: INFO:snips_skill_server_lib::runner: [food][out] Done
-janv. 10 17:38:33 raspberrypi snips-skill-server[30535]: INFO:snips_skill_server_lib::runner: [food][out] Greengrass is not enabled
+janv. 10 17:38:33 raspberrypi snips-skill-server[30535]: INFO:snips_skill_server_lib::runner: [food][out] Greengrass is enabled
 ```
+Previous [step](./SAM.md "Sam setup")
+[Menu](../README.md "Menu")  
