@@ -47,7 +47,7 @@ SKILL_MESSAGES = {
             "Un instant"
         ],
         "burger": "Je vois un hamburger",
-        "salad": "Je vois une salade",
+        "green-salad": "Je vois une salade",
         "other": "Je vois rien, à l'aide.",
     },
     'en': {
@@ -78,7 +78,7 @@ SKILL_MESSAGES = {
             "a moment please"
         ],
         "burger": "I see a burger",
-        "salad": "I see a salad",
+        "green-salad": "I see a salad",
         "other": "I can't see anything, help.",
     }
 }
@@ -133,7 +133,7 @@ def callback(hermes, intent_message):
         loop_new_question(hermes, "encore")
     else:
         end(hermes, "unknown", intent_message)
-    
+
 def again(hermes, intent_message):
     print("again")
     if hermes.skill.food.isOn:
@@ -149,7 +149,7 @@ def over(hermes, intent_message):
         end(hermes, "stop", intent_message)
     else:
         end(hermes, "unknown", intent_message)
-        
+
 def startAssistant(hermes, intent_message):
     print("activate")
     if not hermes.skill.food.isOn:

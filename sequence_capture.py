@@ -39,8 +39,10 @@ def capture(topic=None, gg=None):
     """
     Will capture a picture from the Pi camera, resize it and infer on it.
     """
-    camera.capture('foo.jpg')
-    img = cv.imread('foo.jpg')
+    stream = BytesIO()
+    camera.capture(stream, format='jpeg')
+    data = np.fromstring(stream.getvalue(), dtype=np.uint8)
+    img = cv.imdecode(data,1)
     img = cv.resize(img, (224,224))
     blob = cv.dnn.blobFromImage(img, 1., (224, 224), (104, 117, 123), crop=False)
     net.setInput(blob)
@@ -48,6 +50,7 @@ def capture(topic=None, gg=None):
     res = res.flatten()
     print(res)
     out = np.argmax(res)
+    print(out)
     try:
         if gg is not None:
             messageJson = json.dumps("Sees a {0}".format(classes[out]))
@@ -55,6 +58,7 @@ def capture(topic=None, gg=None):
             print('Published topic %s: %s' % (topic, messageJson))
             return labels[output.argmax()]
         else:
+            print(classes[out])
             return classes[out]
     except:
         print(sys.exc_info()[1])
