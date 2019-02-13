@@ -19,7 +19,18 @@ Once logged in install your assistant with either the [french](https://console.s
 ```
 sam install assistant
 ```
-Select the assistant.  
+Select the assistant.
+You will need to reboot for the microphone to work.
+```
+sam reboot
+```
+Now you will need to setup the audio:
+```
+sam setup audio
+```
+Choose as a microphone the MATRIX. Then choose your speaker.
+You are done !
+  
 If you want to work with Greengrass follow [this step](./GREENGRASS.md "Greengrass setup").  
 Previous [step](./PI.md "Pi setup")  
 [Menu](../README.md "Menu")

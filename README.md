@@ -16,7 +16,7 @@ For this skill to work you will need to install beforehand a few libraries.
 - Raspbian Stretch installed on the Raspberry Pi [tutorial here](https://www.raspberrypi.org/documentation/installation/installing-images/ "Raspbian Stretch installation tutorial")
 - 1 Movidius USB V1/V2
 - 1 Raspberry Pi Camera V2.1
-- 1 Microphone
+- 1 Matrix Voice or Creator
 - 1 Speaker
 
 ## Installation
