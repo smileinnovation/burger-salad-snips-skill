@@ -6,7 +6,7 @@ echo "deb https://apt.matrix.one/raspbian $(lsb_release -sc) main" | sudo tee /e
 sudo apt-get update
 
 #Checking if all the packages needed are installed
-./utils/check_package.sh matrixio-kernel-modules python3-pip matrixio-malos matrixio-creator-init libmatrixio-creator-hal libmatrixio-creator-hal-dev
+sudo apt-get install --yes matrixio-kernel-modules python3-pip matrixio-malos matrixio-creator-init libmatrixio-creator-hal libmatrixio-creator-hal-dev
 
 #Setting config file for Matrix & Snips
 sudo sed -i 's/# mike = "Built-in Microphone"/mike = "MATRIXIO SOUND: - (hw:2,0)"/g' /etc/snips.toml
