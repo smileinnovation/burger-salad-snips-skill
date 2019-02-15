@@ -1,7 +1,7 @@
 #! /bin/bash -xe
 
 #Updating repository list
-curl -k https://apt.matrix.one/doc/apt-key.gpg | sudo apt-key --allow-unauthenticated add -
+curl -k https://apt.matrix.one/doc/apt-key.gpg | sudo apt-key add -
 echo "deb https://apt.matrix.one/raspbian $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/matrixlabs.list
 sudo apt-get update --allow-unauthenticated
 
