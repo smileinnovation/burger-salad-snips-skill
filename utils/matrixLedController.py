@@ -72,14 +72,17 @@ class LedControl:
         }.get(event, self.unmanaged_event)
 
     def wakeup_event(self, payload):
+        self._runner.once(self._matrix.listening)
         #self._runner.once(self._matrix.fadeIn, colors['green'])
         self._logger.info("=> wakeup: {}".format(payload))
 
     def backtosleep_event(self, payload):
+        self._runner.once(self._matrix.clear)
         #self._runner.once(self._matrix.shutdown)
         self._logger.info("=> backtosleep: {}".format(payload))
 
     def listening_event(self, payload):
+        self._runner.start(self._matrix.listening)
         self._logger.info("=> listening: {}".format(payload))
 
     def think_event(self, payload):
@@ -89,9 +92,9 @@ class LedControl:
             likelihood = payload['likelihood']
 
         if likelihood == 0:
-            self._runner.once(self._matrix.error, colors['red'])
+            self._runner.once(self._matrix.error)
         else:
-            self._runner.start(self._matrix.listening, colors['blue'])
+            self._runner.start(self._matrix.working)
 
     def tts_start_event(self, payload):
         self._logger.info("=> tts start: {}".format(payload))
@@ -100,7 +103,7 @@ class LedControl:
         self._logger.info("=> tts finished: {}".format(payload))
 
     def intent_error_event(self, payload):
-        self._runner.once(self._matrix.error, colors['red'])
+        self._runner.once(self._matrix.error)
         self._logger.info("=> intent error: {}".format(payload))
 
     def intent_success_event(self, payload):
@@ -111,6 +114,7 @@ class LedControl:
         self._logger.info("=> play finished: {}".format(payload))
 
     def unmanaged_event(self, payload):
+        self._runner.once(self._matrix.error)
         self._logger.info("=> unmanaged: {}".format(payload))
 
     def on_message(self, client, userdata, message):

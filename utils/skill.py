@@ -122,6 +122,7 @@ class Skill:
         else:
             print("Greengrass is not enabled")
             self.food = FoodInference()
+        ledControl.start()
 
 def loop_new_question(hermes, order):
     hermes.publish_start_session_action('default', hermes.skill.message.get(order), ALL_INTENTS, True, custom_data=None, session_init_send_intent_not_recognized=hermes.skill.message.get("unknown"))

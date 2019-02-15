@@ -40,7 +40,6 @@ class Leds:
         self.driver_config = driver_pb2.DriverConfig()
         self.driver_config.image.led.extend(self.image)
         self.socket.send(self.driver_config.SerializeToString())
-        
     def listening(self, maxBrightness=100, speed=0.05):
         """Call this when the bot is listening"""
         time.sleep(speed)
