@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+from matrixLedController import LedControl
+
+ledControl = LedControl('localhost', 1883)
+
 import configparser
 import io
 import queue
