@@ -40,6 +40,7 @@ class Leds:
         self.driver_config = driver_pb2.DriverConfig()
         self.driver_config.image.led.extend(self.image)
         self.socket.send(self.driver_config.SerializeToString())
+
     def listening(self, maxBrightness=100, speed=0.05):
         """Call this when the bot is listening"""
         time.sleep(speed)
@@ -60,9 +61,14 @@ class Leds:
         for led in range(led_count):
             self.image[led] = set_led(red=10)
         self.send()
-        time.sleep(1)
+        time.sleep(0.25)
         self.clear()
-        time.sleep(1)
+        time.sleep(0.25)
+        for led in range(led_count):
+            self.image[led] = set_led(red=10)
+        self.send()
+        time.sleep(0.25)
+        self.clear()
         
     def clear(self):
         """Turns all the leds off"""
@@ -94,15 +100,13 @@ class Leds:
 
     def ready(self):
         """Call this when bot is ready"""
+        self.clear()
+        time.sleep(0.5)
         for led in range(led_count):
             self.image[led] = set_led(green=50)
         self.send()
         time.sleep(1)
         self.clear()
-        time.sleep(1)
-        for led in range(led_count):
-            self.image[led] = set_led(green=50)
-        self.send()
         
     def startup(self, speed=0.05):
         """Call this function when at startup"""
@@ -121,7 +125,6 @@ class Leds:
 if __name__ == '__main__':
     leds = Leds()
     runner = LedRunner()
-    print("c => clear\nr => full [red]\nl => loading [red]\nll => listening [blue breathing]\ns => startup [blue/green]")
     while True:
         a = input("$> ")
         if a == "l":

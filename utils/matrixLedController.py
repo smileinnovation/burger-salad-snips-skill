@@ -73,12 +73,10 @@ class LedControl:
 
     def wakeup_event(self, payload):
         self._runner.once(self._matrix.listening)
-        #self._runner.once(self._matrix.fadeIn, colors['green'])
         self._logger.info("=> wakeup: {}".format(payload))
 
     def backtosleep_event(self, payload):
         self._runner.once(self._matrix.clear)
-        #self._runner.once(self._matrix.shutdown)
         self._logger.info("=> backtosleep: {}".format(payload))
 
     def listening_event(self, payload):
@@ -107,7 +105,7 @@ class LedControl:
         self._logger.info("=> intent error: {}".format(payload))
 
     def intent_success_event(self, payload):
-        #self._runner.once(self._matrix.solid, colors['blue'])
+        self._runner.once(self._matrix.ready)
         self._logger.info("=> intent success: {}".format(payload))
 
     def play_finished_event(self, payload):
@@ -133,7 +131,7 @@ class LedControl:
         return mqtt_client
 
     def start(self):
-        #self._runner.once(self._matrix.solid)
+        self._runner.once(self._matrix.ready)
         self.mqtt_client.connect(self.mqtt_host, self.mqtt_port, 60)
         self.mqtt_client.loop_start()
 
