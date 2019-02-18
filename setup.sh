@@ -3,7 +3,7 @@
 #Updating repository list
 curl -k https://apt.matrix.one/doc/apt-key.gpg | sudo apt-key add -
 echo "deb https://apt.matrix.one/raspbian $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/matrixlabs.list
-sudo apt-get update --allow-unauthenticated
+sudo apt-get update
 
 #Checking if all the packages needed are installed
 sudo apt-get install --yes matrixio-kernel-modules python3-pip matrixio-malos matrixio-creator-init libmatrixio-creator-hal libmatrixio-creator-hal-dev
