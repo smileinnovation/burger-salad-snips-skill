@@ -102,9 +102,7 @@ def read_configuration_file(configuration_file):
 
 class Skill:
     def __init__(self):
-        print("Reading config file")
         config = read_configuration_file("config.ini")
-        print("Done")
         extra = config["global"].get("extra", False)
         lang = config["global"].get("lang", "en")
         greengrass = config["global"].get("greengrass", False)
@@ -131,7 +129,9 @@ def end(hermes, order, intent_message):
     hermes.publish_end_session(intent_message.session_id, hermes.skill.message.get(order))
 
 def callback(hermes, intent_message):
-    print("predict")
+    """
+    Makes an inference when the intent is to make a prediction.
+    """
     if hermes.skill.food.isOn:
         result = hermes.skill.food.infer()
         hermes.publish_end_session(intent_message.session_id, hermes.skill.message.get(result))
@@ -140,7 +140,9 @@ def callback(hermes, intent_message):
         end(hermes, "unknown", intent_message)
 
 def again(hermes, intent_message):
-    print("again")
+    """
+    Prepare for an other prediction.
+    """
     if hermes.skill.food.isOn:
         end(hermes, "ok", intent_message)
         loop_new_question(hermes, "again")
@@ -148,7 +150,9 @@ def again(hermes, intent_message):
         end(hermes, "unknown", intent_message)
 
 def over(hermes, intent_message):
-    print("over")
+    """
+    Stop everything.
+    """
     if hermes.skill.food.isOn:
         hermes.skill.food.isOn = False
         end(hermes, "stop", intent_message)
@@ -156,9 +160,10 @@ def over(hermes, intent_message):
         end(hermes, "unknown", intent_message)
 
 def startAssistant(hermes, intent_message):
-    print("activate")
+    """
+    Start the assistant that makes predictions.
+    """
     if not hermes.skill.food.isOn:
-        print("activated assistant")
         hermes.skill.food.isOn = True
         end(hermes, "ok", intent_message)
         loop_new_question(hermes, "start")

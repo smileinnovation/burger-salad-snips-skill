@@ -1,4 +1,4 @@
-# coding: utf8
+# -*- coding: utf-8 -*-
 import sys
 import time
 import warnings
@@ -14,6 +14,10 @@ class FoodInference:
         
     @classmethod
     def infer(self):
+        """
+        Call this method when you want to make an inference.
+        This method will call the capture definition in the sequence_capture file.
+        """
         if self.gg is not None:
             inference = sequence_capture.capture(self.topic, self.gg)
         else:

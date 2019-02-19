@@ -44,6 +44,9 @@ class LedControl:
         self.mqtt_client = self.connect()
 
     def on_connect(self, client, userdata, flags, rc):
+        """
+        Will connect and subscribe to hermes Snips topics.
+        """
         self._logger.info("Connected with result code {0}".format(rc))
         self._runner.once(self._matrix.ready)
         client.subscribe([
@@ -72,18 +75,31 @@ class LedControl:
         }.get(event, self.unmanaged_event)
 
     def wakeup_event(self, payload):
+        """
+        Activate breathing effect when waking up.
+        """
         self._runner.once(self._matrix.listening)
         self._logger.info("=> wakeup: {}".format(payload))
 
     def backtosleep_event(self, payload):
+        """
+        Stop any effects when everything is done.
+        """
         self._runner.once(self._matrix.clear)
         self._logger.info("=> backtosleep: {}".format(payload))
 
     def listening_event(self, payload):
+        """
+        Activate the breathing effect when listening.
+        """
         self._runner.start(self._matrix.listening)
         self._logger.info("=> listening: {}".format(payload))
 
     def think_event(self, payload):
+        """
+        Activate the working effect if an intent was found.
+        Else, activate once the error effect.
+        """
         self._logger.info("=> thinking: {}".format(payload))
         likelihood = 0
         if payload is not None and 'likelihood' in payload:
@@ -101,10 +117,16 @@ class LedControl:
         self._logger.info("=> tts finished: {}".format(payload))
 
     def intent_error_event(self, payload):
+        """
+        When an error is encountered activate the error effect.
+        """
         self._runner.once(self._matrix.error)
         self._logger.info("=> intent error: {}".format(payload))
 
     def intent_success_event(self, payload):
+        """
+        When success on an event, activate the ready effect.
+        """
         self._runner.once(self._matrix.ready)
         self._logger.info("=> intent success: {}".format(payload))
 
@@ -112,6 +134,9 @@ class LedControl:
         self._logger.info("=> play finished: {}".format(payload))
 
     def unmanaged_event(self, payload):
+        """
+        When an unmanaged event happens, activate the error effect. 
+        """
         self._runner.once(self._matrix.error)
         self._logger.info("=> unmanaged: {}".format(payload))
 

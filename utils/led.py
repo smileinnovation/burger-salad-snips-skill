@@ -36,13 +36,16 @@ class Leds:
         self.switch = 0
 
     def send(self):
-        """Send the led data to Matrix"""
+        """Sends the led data to Matrix"""
         self.driver_config = driver_pb2.DriverConfig()
         self.driver_config.image.led.extend(self.image)
         self.socket.send(self.driver_config.SerializeToString())
 
     def listening(self, maxBrightness=100, speed=0.05):
-        """Call this when the bot is listening"""
+        """
+        Call this when the bot is listening.
+        This animation will produce a blue 'breathing' effect.
+        """
         time.sleep(speed)
         for led in range(led_count):
             self.image[led] = set_led(blue=10+self.breath)
@@ -57,7 +60,10 @@ class Leds:
         self.send()
         
     def error(self):
-        """Call this when an error is encountered"""
+        """
+        Call this when an error is encountered.
+        It will flash 2 times red light.
+        """
         for led in range(led_count):
             self.image[led] = set_led(red=10)
         self.send()
@@ -77,7 +83,11 @@ class Leds:
         self.send()
             
     def working(self, speed=0.05, length=4):
-        """Call this when processing information"""
+        """
+        Call this when processing information.
+        The animation will produce incrementally lit 3 blue leds and 3 decrementally lit green leds.
+        These 6 leds will turn around forever until they are stopped.
+        """
         time.sleep(speed)
         for behind in range(1,length):
             bLed = (self.workingLed-behind) if (self.workingLed-behind) >= 0 else (18 + (self.workingLed-behind))
@@ -99,7 +109,10 @@ class Leds:
         self.send()
 
     def ready(self):
-        """Call this when bot is ready"""
+        """
+        Call this when bot is ready.
+        It will flash 2 times all the green leds.
+        """
         self.clear()
         time.sleep(0.5)
         for led in range(led_count):
@@ -109,7 +122,11 @@ class Leds:
         self.clear()
         
     def startup(self, speed=0.05):
-        """Call this function when at startup"""
+        """
+        Call this function when at startup.
+        This animation will progressivly lit up the leds one by one to blue then green.
+        This is a perpetual animation until it is stopped.
+        """
         time.sleep(speed)
         if self.switch == 0:
             self.image[self.workingLed] = set_led(blue=50)
@@ -127,20 +144,20 @@ if __name__ == '__main__':
     runner = LedRunner()
     while True:
         a = input("$> ")
-        if a == "l":
+        if a == "working":
             runner.start(leds.clear)
             runner.start(leds.working)
-        elif a == "r":
+        elif a == "error":
             runner.start(leds.clear)
             runner.start(leds.error)
-        elif a == "c":
+        elif a == "clear":
             runner.start(leds.clear)
-        elif a == "ll":
+        elif a == "listening":
             runner.start(leds.clear)
             runner.start(leds.listening)
-        elif a == "s":
+        elif a == "startup":
             runner.start(leds.clear)
             runner.start(leds.startup)
-        elif a == "rr":
+        elif a == "ready":
             runner.start(leds.clear)
             runner.once(leds.ready)
