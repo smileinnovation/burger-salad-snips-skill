@@ -1,5 +1,5 @@
 # Greengrass
-We will assume that your Greengrass group is already created and a core device is also created.
+We will assume that your Greengrass group is already created and a core device is also created.  
 Now create a new Thing in the AWS IoT Hub and download the certificates. Including the root certificate of Amazon.  
 *Don't forget to add a subscription from your thing to your Greengrass Core or your IoT Hub.*  
 Open the file `config.ini` in the `/var/lib/snips/skills/burger-salad-snips-skill` folder.  

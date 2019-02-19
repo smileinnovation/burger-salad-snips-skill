@@ -25,8 +25,10 @@ ifconfig
 ```
 Some text should show up, if you connected the Pi with the Wifi check the `inet` value at `wlan0` or `eth0` if you are connected with ethernet.  
 That is your Pi IP adress, write it somewhere we will need it later.
+  
 ## Matrix installation
-Just plug the microphone on the GPIOs
+  
+Just plug the microphone on the GPIOs  
   
 Next [step](./SAM.md "Movidius SDK installation").  
 [Menu](../README.md "Menu")
