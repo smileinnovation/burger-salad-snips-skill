@@ -31,6 +31,7 @@ echo out > /sys/class/gpio/gpio26/direction
 echo 1 > /sys/class/gpio/gpio26/value
 echo 0 > /sys/class/gpio/gpio26/value
 echo 1 > /sys/class/gpio/gpio26/value
+cd -
 
 # install openvino fro Raspberry Pi
 if [ ! -d inference_engine_vpu_arm ]; then
