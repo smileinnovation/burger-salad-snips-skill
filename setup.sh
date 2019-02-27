@@ -40,8 +40,8 @@ if [ ! -d inference_engine_vpu_arm ]; then
     cd -
 
     # Move openvino folder to the current folder
-    mv /tmp/inference_engine_vpu_arm .
-    rm -rf /tmp/l_openvino*
+    sudo mv /tmp/inference_engine_vpu_arm .
+    sudo rm -rf /tmp/l_openvino*
 
     # Updating udev rules
     sudo cp "inference_engine_vpu_arm/deployment_tools/inference_engine/external/97-myriad-usbboot.rules" /etc/udev/rules.d/
