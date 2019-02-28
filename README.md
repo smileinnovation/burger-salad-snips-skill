@@ -25,13 +25,6 @@ For this skill to work you will need some specific hardware.
 - [Sam](./doc/SAM.md "sam installation")
 - [Greengrass](./doc/GREENGRASS.md "Greengrass setup") (optional)
 
-## Change language
-  
-To change the language (by default it is in english) to french, open the `config.ini` file in the folder `/var/lib/snips/skills/burger-salad-snips-skill`.
-Replace `lang=en` to `lang=fr` and restart snips:
-```
-$> sudo systemctl restart 'snips-*'
-```
 ## Known Issues
     
 - **Can not init USB device: NC_DEVICE_NOT_FOUND in function 'initPlugin'**:
