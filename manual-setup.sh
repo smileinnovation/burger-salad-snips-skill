@@ -29,6 +29,7 @@ echo out > /sys/class/gpio/gpio26/direction
 echo 1 > /sys/class/gpio/gpio26/value
 echo 0 > /sys/class/gpio/gpio26/value
 echo 1 > /sys/class/gpio/gpio26/value
+cd -
 
 # Updating udev rules
 sudo cp "inference_engine_vpu_arm/deployment_tools/inference_engine/external/97-myriad-usbboot.rules" /etc/udev/rules.d/
