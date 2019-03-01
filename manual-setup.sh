@@ -15,22 +15,6 @@ sudo sed -i 's/# mike = "Built-in Microphone"/mike = "MATRIXIO SOUND: - (hw:2,0)
 sudo usermod -a -G video _snips-skills
 sudo usermod -a -G users _snips-skills
 
-#Flashing the FPGA
-echo 26 > /sys/class/gpio/export 2>/dev/null
-echo out > /sys/class/gpio/gpio26/direction
-echo 1 > /sys/class/gpio/gpio26/value
-echo 0 > /sys/class/gpio/gpio26/value
-echo 1 > /sys/class/gpio/gpio26/value
-cd /usr/share/matrixlabs/matrixio-devices/
-xc3sprog -c matrix_voice blob/bscan_spi_s6lx9_ftg256.bit
-xc3sprog -c matrix_voice -I blob/system_voice.bit
-echo 26 > /sys/class/gpio/export 2>/dev/null
-echo out > /sys/class/gpio/gpio26/direction
-echo 1 > /sys/class/gpio/gpio26/value
-echo 0 > /sys/class/gpio/gpio26/value
-echo 1 > /sys/class/gpio/gpio26/value
-cd -
-
 # Updating udev rules
 sudo cp "inference_engine_vpu_arm/deployment_tools/inference_engine/external/97-myriad-usbboot.rules" /etc/udev/rules.d/
 sudo udevadm control --reload-rules
