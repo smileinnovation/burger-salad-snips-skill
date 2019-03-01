@@ -103,20 +103,19 @@ def read_configuration_file(configuration_file):
 class Skill:
     def __init__(self):
         config = read_configuration_file("config.ini")
-        extra = config["global"].get("extra", False)
         lang = config["global"].get("lang", "en")
-        greengrass = config["global"].get("greengrass", False)
+        greengrass = config["global"].get("secret", False)
         self.message = message.Message(SKILL_MESSAGES, lang)
         if greengrass == "true":
             print("Greengrass is enabled")
-            ggConnect = GGConnect.GGConnect(config["greengrass"].get("host", None),
-                                            config["greengrass"].get("rootca", None),
-                                            config["greengrass"].get("certpath", None),
-                                            config["greengrass"].get("privatekeypath", None),
-                                            config["greengrass"].get("thingname", None),
-                                            maxRetries=config["greengrass"].get("maxretires", 10))
+            ggConnect = GGConnect.GGConnect(config["secret"].get("host", None),
+                                            config["secret"].get("rootca", None),
+                                            config["secret"].get("certpath", None),
+                                            config["secret"].get("privatekeypath", None),
+                                            config["secret"].get("thingname", None),
+                                            maxRetries=config["secret"].get("maxretires", 10))
             gg = ggConnect.connectToGG()
-            self.food = FoodInference(config["greengrass"].get("topic", None),gg)
+            self.food = FoodInference(config["secret"].get("topic", None),gg)
         else:
             print("Greengrass is not enabled")
             self.food = FoodInference()
