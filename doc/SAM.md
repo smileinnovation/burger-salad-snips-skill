@@ -23,7 +23,7 @@ sam reboot
 You will then need to connect to your Pi and manually launch a script.
 For this go to `/var/lib/snips/skills/burger-salad-snips-skill/` and run this command:
 ```
-sudo ./manual-setup.sh
+./manual-setup.sh
 ```
 Once everything has been installed reboot the pi and setup the audio.
   
