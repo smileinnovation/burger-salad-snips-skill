@@ -6,18 +6,18 @@ class Mixer():
     change the sounds parameters.
     """
     def __init__(self):
-        self._outMixer = alsaaudio.Mixer("Master")
-        self._inMixer = alsaaudio.Mixer("Capture")
+        self._outMixer = alsaaudio.Mixer("PCM")
+        #self._inMixer = alsaaudio.Mixer()
         self._outLevel = 90
-        self._inMuted = False
+        #self._inMuted = False
         self._outMuted = False
 
-    def toggleInMute(self):
-        """
-        Mutes/Unmutes the microphone.
-        """
-        self._inMuted = True if self._inmuted == False else False
-        self._inMixer.setmute(self._inMuted)
+    #def toggleInMute(self):
+        #"""
+        #Mutes/Unmutes the microphone.
+        #"""
+        #self._inMuted = True if self._inmuted == False else False
+        #self._inMixer.setmute(self._inMuted)
 
     def toggleOutMute(self):
         """
