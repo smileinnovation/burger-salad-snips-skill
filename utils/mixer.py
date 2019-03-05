@@ -16,14 +16,14 @@ class Mixer():
         """
         Mutes/Unmutes the microphone.
         """
-        self.inMuted = !self._inMuted
+        self._inMuted = True if self._inmuted == False else False
         self._inMixer.setmute(self._inMuted)
 
     def toggleOutMute(self):
         """
         Mutes/unmutes the audio output
         """
-        self._outMuted = !self._outMuted
+        self._outMuted = True if self._outMuted == False else False
         self._outMixer.setmute(self._outMuted)
 
     def setVolume(self, value):
