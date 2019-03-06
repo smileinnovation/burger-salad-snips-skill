@@ -8,9 +8,9 @@ class Mixer():
     def __init__(self):
         self._outMixer = alsaaudio.Mixer("PCM")
         #self._inMixer = alsaaudio.Mixer()
-        self._outLevel = 90
+        self._outLevel = self._outMixer.getvolume()[0]
         #self._inMuted = False
-        self._outMuted = False
+        self._outMuted = self._outMixer.getmute()
 
     #def toggleInMute(self):
         #"""
