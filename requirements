@@ -15,6 +15,5 @@ six==1.11.0
 tornado==4.5.1
 AWSIoTPythonSDK
 hermes-python
-numpy
 picamera
 pyalsaaudio
