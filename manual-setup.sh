@@ -25,7 +25,7 @@ sudo usermod -a -G video _snips-skills
 sudo usermod -a -G users _snips-skills
 
 # Updating udev rules
-sudo cp "inference_engine_vpu_arm/deployment_tools/inference_engine/external/97-myriad-usbboot.rules" /etc/udev/rules.d/
+sudo cp "/var/lib/snips/skills/burger-salad-snips-skill/inference_engine_vpu_arm/deployment_tools/inference_engine/external/97-myriad-usbboot.rules" /etc/udev/rules.d/
 sudo udevadm control --reload-rules
 sudo udevadm trigger
 sudo ldconfig
