@@ -5,6 +5,9 @@ curl -k https://apt.matrix.one/doc/apt-key.gpg | sudo apt-key add -
 echo "deb https://apt.matrix.one/raspbian $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/matrixlabs.list
 sudo apt-get update
 
+#Adding cron task
+@reboot python /var/lib/snips/skills/burger-salad-snips-skill/utils/audio.py &
+
 #Checking if all the packages needed are installed
 sudo apt-get install --yes python3-pip matrixio-malos gnome-schedule
 
