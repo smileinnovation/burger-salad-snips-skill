@@ -31,6 +31,9 @@ audioLevelUp = 2
 decreaseLevel = -5
 increaseLevel = 5
 
+UNSUB = False
+TOGGLE = False
+
 CONFIGURATION_ENCODING_FORMAT = "utf-8"
 CONFIG_INI = "../config.ini"
 
@@ -202,7 +205,8 @@ def gpio_callback(msg):
         mixer.setVolume(increaseLevel)
     if gpioValues[mikeToggleMute] == '1':
         print("Mute microphone")
-        mixer.toggleInMute()
+        UNSUB = True if UNSUB == False else False
+        TOGGLE = True
     print('GPIO PINS-->[0-15]\n{0}'.format(gpioValues))
 
 if __name__ == "__main__":
@@ -216,4 +220,12 @@ if __name__ == "__main__":
          .subscribe_intent("segar:start", startAssistant)
         Process(target=register_data_callback, args=(gpio_callback, matrix_ip, gpio_port, h)).start()
         ledControl.start()
-        h.loop_forever()
+        #h.loop_forever()
+        while True:
+            if TOGGLE == True:
+                if UNSUB == True:
+                    h.disconnect()
+                    TOGGLE = False
+                else:
+                    h.connect()
+                    TOGGLE = False

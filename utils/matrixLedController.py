@@ -165,7 +165,6 @@ class LedControl:
         self.mqtt_client.disconnect()
         self._runner.stop()
         self._runner.once(self._matrix.clear)
-        self._matrix.disconnect()
 
 if __name__ == '__main__':
     a = LedControl('localhost', 1883)
