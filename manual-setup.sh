@@ -6,7 +6,13 @@ echo "deb https://apt.matrix.one/raspbian $(lsb_release -sc) main" | sudo tee /e
 sudo apt-get update
 
 #Adding cron task
-@reboot python /var/lib/snips/skills/burger-salad-snips-skill/utils/audio.py &
+#write out current crontab
+crontab -l > mycron
+#echo new cron into cron file
+echo "@reboot python /var/lib/snips/skills/burger-salad-snips-skill/utils/audio.py &" >> mycron
+#install new cron file
+crontab mycron
+rm mycron
 
 #Checking if all the packages needed are installed
 sudo apt-get install --yes python3-pip matrixio-malos gnome-schedule
