@@ -17,3 +17,4 @@ AWSIoTPythonSDK
 hermes-python
 picamera
 pyalsaaudio
+numpy
