@@ -39,3 +39,5 @@ def gpio_callback(msg):
 if __name__ == "__main__":
     ioloop.install()
     Process(target=register_data_callback, args=(gpio_callback, matrix_ip, gpio_port)).start()
+    while True:
+        time.sleep(0.1)
