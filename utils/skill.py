@@ -17,7 +17,7 @@ from matrix_io.proto.malos.v1 import driver_pb2
 from matrix_io.proto.malos.v1 import io_pb2
 from multiprocessing import Process
 from zmq.eventloop import ioloop
-from utils import driver_keep_alive, register_data_callback, register_error_callback
+from callbacks import register_data_callback
 from mixer import Mixer
 
 matrix_ip = '127.0.0.1'
