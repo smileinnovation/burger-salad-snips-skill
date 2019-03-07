@@ -6,6 +6,7 @@ ledControl = LedControl('localhost', 1883)
 
 import configparser
 import io
+import time
 import queue
 from foodinference import FoodInference
 from hermes_python.hermes import Hermes
@@ -222,6 +223,7 @@ if __name__ == "__main__":
         ledControl.start()
         #h.loop_forever()
         while True:
+            ime.sleep(0.1)
             if TOGGLE == True:
                 if UNSUB == True:
                     h.disconnect()
