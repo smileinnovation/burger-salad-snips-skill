@@ -25,12 +25,7 @@ gpio_port = 20049
 context = zmq.Context()
 socket = context.socket(zmq.PUSH)
 socket.connect('tcp://{0}:{1}'.format(matrix_ip, gpio_port))
-mixer = Mixer()
-audioToggleMute = 0
-audioLevelDown = 1
-audioLevelUp = 2
-decreaseLevel = -5
-increaseLevel = 5
+mikeToggleMute = 3
 
 UNSUB = False
 TOGGLE = False
@@ -195,15 +190,6 @@ def gpio_callback(msg):
     gpioValues = ('{0:016b}'.format(data.values))
     gpioValues = gpioValues[::-1]
     gpioValues = list(gpioValues)
-    if gpioValues[audioToggleMute] == '1':
-        print("Mute speakers")
-        mixer.toggleOutMute()
-    if gpioValues[audioLevelDown] == '1':
-        print("Decreasing volume")
-        mixer.setVolume(decreaseLevel)
-    if gpioValues[audioLevelUp] == '1':
-        print("Increase Volume")
-        mixer.setVolume(increaseLevel)
     if gpioValues[mikeToggleMute] == '1':
         print("Mute microphone")
         UNSUB = True if UNSUB == False else False
