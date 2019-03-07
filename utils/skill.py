@@ -209,7 +209,7 @@ if __name__ == "__main__":
         ledControl.start()
         #h.loop_forever()
         while True:
-            ime.sleep(0.1)
+            time.sleep(0.1)
             if TOGGLE == True:
                 if UNSUB == True:
                     h.disconnect()
