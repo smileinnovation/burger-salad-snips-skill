@@ -1,0 +1,12 @@
+[Unit]
+Description=My Script Service
+Wants=sys-devices-platform-soc-soc:audio-bcm2835_alsa-sound-card0.device
+After=sys-devices-platform-soc-soc:audio-bcm2835_alsa-sound-card0.device
+After=multi-user.target
+
+[Service]
+Type=idle
+ExecStart= /usr/bin/python3 /var/lib/snips/skills/burger-salad-snips-skill/utils/audio.py
+
+[Install]
+WantedBy=multi-user.target

@@ -6,14 +6,16 @@ echo "deb https://apt.matrix.one/raspbian $(lsb_release -sc) main" | sudo tee /e
 sudo apt-get update
 
 #Checking if all the packages needed are installed
-sudo apt-get install --yes python3-pip matrixio-malos matrixio-kernel-modules
+sudo apt-get install --yes python3-pip matrixio-kernel-modules matrixio-malos
 
 #Setting config file for Matrix & Snips
 sudo sed -i 's/# mike = "Built-in Microphone"/mike = "MATRIXIO SOUND: - (hw:2,0)"/g' /etc/snips.toml
 
 #Launch the volume manager
-. /var/lib/snips/skills/burger-salad-snips-skill/venv/bin/activate
-python3 /var/lib/snips/skills/burger-salad-snips-skill/utils/audio.py &
+sudp pip3 install -r requirements
+cp audio-snips.service /lib/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable audio-snips.service
 
 #Giving snips access to USB ports and video feed.
 sudo usermod -a -G video _snips-skills
