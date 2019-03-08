@@ -6,19 +6,14 @@ echo "deb https://apt.matrix.one/raspbian $(lsb_release -sc) main" | sudo tee /e
 sudo apt-get update
 
 #Checking if all the packages needed are installed
-sudo apt-get install --yes python3-pip matrixio-malos gnome-schedule matrixio-kernel-modules
+sudo apt-get install --yes python3-pip matrixio-malos matrixio-kernel-modules
 
 #Setting config file for Matrix & Snips
 sudo sed -i 's/# mike = "Built-in Microphone"/mike = "MATRIXIO SOUND: - (hw:2,0)"/g' /etc/snips.toml
 
-#Adding cron task
-#write out current crontab
-crontab -l > mycron
-#echo new cron into cron file
-echo "@reboot python /var/lib/snips/skills/burger-salad-snips-skill/utils/audio.py &" >> mycron
-#install new cron file
-crontab mycron
-rm mycron
+#Launch the volume manager
+. /var/lib/snips/skills/burger-salad-snips-skill/venv/bin/activate
+python3 /var/lib/snips/skills/burger-salad-snips-skill/utils/audio.py &
 
 #Giving snips access to USB ports and video feed.
 sudo usermod -a -G video _snips-skills

@@ -12,7 +12,7 @@ I conntect to since there are tcp ports for errors, data, and keep alive.
 """
 
 
-def register_data_callback(callback, creator_ip, sensor_port, hermes):
+def register_data_callback(callback, creator_ip, sensor_port):
     """Accepts a function to run when malOS zqm driver pushes an update"""
 
     # Grab a zmq context, as per usual, connect to it, but make it a SUBSCRIPTION this time
@@ -40,3 +40,30 @@ def register_data_callback(callback, creator_ip, sensor_port, hermes):
     # Start a global IO loop from tornado
     ioloop.IOLoop.instance().start()
     print('Worker has stopped processing messages.')
+
+def driver_keep_alive(creator_ip, sensor_port, ping=5):
+    """
+    This doesn't take a callback function as it's purpose is very specific.
+    This will ping the driver every n seconds to keep the driver alive and sending updates
+    """
+
+    # Grab zmq context
+    context = zmq.Context()
+
+    # Set up socket as a push
+    sping = context.socket(zmq.PUSH)
+
+    # Set the keep alive port to the sensor port from the function args + 1
+    keep_alive_port = sensor_port + 1
+
+    # Connect to the socket
+    sping.connect('tcp://{0}:{1}'.format(creator_ip, keep_alive_port))
+
+    # Start a forever loop
+    while True:
+        # Ping with empty string to let the drive know we're still listening
+        sping.send_string('')
+
+        # Delay between next ping
+        time.sleep(ping)
+
