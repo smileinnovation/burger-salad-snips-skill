@@ -1,4 +1,5 @@
 import alsaaudio
+import paho.mqtt.publish as publish
 
 class Mixer():
     """
@@ -15,15 +16,14 @@ class Mixer():
         """
         Mutes the microphone.
         """
-	print("Mute microphone")
+        print("Mute microphone")
         if self._inMuted == False:
             publish.single("hermes/hotword/toggleOff", '{"sideId": "default"}', hostname="localhost:1883")
             TOGGLE = True
-	else:
-	    publish.single("hermes/hotword/toggleOn", '{"sideId": "default"}', hostname="localhost:1883")
-	    TOGGLE = False
+        else:
+            publish.single("hermes/hotword/toggleOn", '{"sideId": "default"}', hostname="localhost:1883")
+            TOGGLE = False
 
-        
     def toggleOutMute(self):
         """
         Mutes/unmutes the audio output
