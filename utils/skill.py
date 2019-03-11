@@ -13,6 +13,7 @@ from hermes_python.hermes import Hermes
 import message
 import GGConnect
 import zmq
+import paho.mqtt.publish as publish
 from matrix_io.proto.malos.v1 import driver_pb2
 from matrix_io.proto.malos.v1 import io_pb2
 from multiprocessing import Process
@@ -27,7 +28,6 @@ socket = context.socket(zmq.PUSH)
 socket.connect('tcp://{0}:{1}'.format(matrix_ip, gpio_port))
 mikeToggleMute = 3
 
-UNSUB = False
 TOGGLE = False
 
 CONFIGURATION_ENCODING_FORMAT = "utf-8"
@@ -184,7 +184,7 @@ def startAssistant(hermes, intent_message):
         loop_new_question(hermes, "start")
     else:
         end(hermes, "unknown", intent_message)
-        
+
 def gpio_callback(msg):
     data = io_pb2.GpioParams().FromString(msg[0])
     gpioValues = ('{0:016b}'.format(data.values))
@@ -192,9 +192,12 @@ def gpio_callback(msg):
     gpioValues = list(gpioValues)
     if gpioValues[mikeToggleMute] == '1':
         print("Mute microphone")
-        UNSUB = True if UNSUB == False else False
-        TOGGLE = True
-    print('GPIO PINS-->[0-15]\n{0}'.format(gpioValues))
+        if TOGGLE == False:
+            publish.single("hermes/hotword/toggleOff", "payload", hostname="iot.eclipse.org")
+            TOGGLE = True
+        else:
+            publish.single("hermes/hotword/toggleOn", "payload", hostname="iot.eclipse.org")
+            TOGGLE = False
 
 if __name__ == "__main__":
     ioloop.install()
@@ -207,13 +210,4 @@ if __name__ == "__main__":
          .subscribe_intent("segar:start", startAssistant)
         Process(target=register_data_callback, args=(gpio_callback, matrix_ip, gpio_port, h)).start()
         ledControl.start()
-        #h.loop_forever()
-        while True:
-            time.sleep(0.1)
-            if TOGGLE == True:
-                if UNSUB == True:
-                    h.disconnect()
-                    TOGGLE = False
-                else:
-                    h.connect()
-                    TOGGLE = False
+        h.loop_forever()

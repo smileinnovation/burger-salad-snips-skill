@@ -17,6 +17,7 @@ mixer = Mixer()
 audioToggleMute = 0
 audioLevelDown = 1
 audioLevelUp = 2
+mikeToggleMute = 0
 decreaseLevel = -2
 increaseLevel = 2
 
@@ -38,6 +39,8 @@ def gpio_callback(msg):
         mixer.setVolume(decreaseLevel)
     if gpioValues[audioLevelUp] == '0':
         mixer.setVolume(increaseLevel)
+    if gpioValues[mikeToggleMute] == '0':
+        mixer.toggleMike()
 
 if __name__ == "__main__":
     ioloop.install()

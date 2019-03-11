@@ -9,7 +9,21 @@ class Mixer():
         self._outMixer = alsaaudio.Mixer("PCM")
         self._outLevel = self._outMixer.getvolume()[0] if self._outMixer.getvolume()[0] >= 0 else 0
         self._outMuted = self._outMixer.getmute()
+        self._inMuted = False
+        
+    def toggleMike(self):
+        """
+        Mutes the microphone.
+        """
+	print("Mute microphone")
+        if self._inMuted == False:
+            publish.single("hermes/hotword/toggleOff", '{"sideId": "default"}', hostname="localhost:1883")
+            TOGGLE = True
+	else:
+	    publish.single("hermes/hotword/toggleOn", '{"sideId": "default"}', hostname="localhost:1883")
+	    TOGGLE = False
 
+        
     def toggleOutMute(self):
         """
         Mutes/unmutes the audio output
