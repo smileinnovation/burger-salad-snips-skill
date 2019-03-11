@@ -18,10 +18,10 @@ class Mixer():
         """
         print("Mute microphone")
         if self._inMuted == False:
-            publish.single("hermes/hotword/toggleOff", '{"sideId": "default"}', hostname="localhost:1883")
+            publish.single("hermes/hotword/toggleOff", '{"siteId": "default"}', hostname="localhost:1883")
             TOGGLE = True
         else:
-            publish.single("hermes/hotword/toggleOn", '{"sideId": "default"}', hostname="localhost:1883")
+            publish.single("hermes/hotword/toggleOn", '{"siteId": "default"}', hostname="localhost:1883")
             TOGGLE = False
 
     def toggleOutMute(self):
