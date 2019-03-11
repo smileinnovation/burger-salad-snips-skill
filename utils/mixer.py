@@ -7,13 +7,17 @@ class Mixer():
     """
     def __init__(self):
         self._outMixer = alsaaudio.Mixer("PCM")
-        self._outLevel = self._outMixer.getvolume()[0]
+        self._outLevel = self._outMixer.getvolume()[0] if self._outMixer.getvolume()[0] >= 0 else 0
         self._outMuted = self._outMixer.getmute()
 
     def toggleOutMute(self):
         """
         Mutes/unmutes the audio output
         """
+        if (self._outMuted):
+            print("Unmuting")
+        else:
+            print("Muting")
         self._outMuted = True if self._outMuted == False else False
         self._outMixer.setmute(self._outMuted)
 
@@ -22,7 +26,7 @@ class Mixer():
         Sets the output volume - or + the value
         """
         newValue = self._outLevel + value
-        print("New value:"+str(newValue))
+        print("Setting volume to {} dB".format(str(newValue)))
         if newValue < 50:
             newValue = 50
         elif newValue > 100:
