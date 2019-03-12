@@ -11,7 +11,7 @@ sudo apt-get install --yes python3-pip matrixio-kernel-modules matrixio-malos
 #Setting config file for Matrix & Snips
 sudo sed -i 's/# mike = "Built-in Microphone"/mike = "MATRIXIO SOUND: - (hw:2,0)"/g' /etc/snips.toml
 
-#Launch the volume manager
+#Install the audio service
 sudo pip3 install -r /var/lib/snips/skills/burger-salad-snips-skill/requirements
 sudo cp /var/lib/snips/skills/burger-salad-snips-skill/audio-snips.service /lib/systemd/system/
 sudo systemctl daemon-reload
