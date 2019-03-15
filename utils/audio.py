@@ -17,7 +17,7 @@ mixer = Mixer()
 audioToggleMute = 0
 audioLevelDown = 1
 audioLevelUp = 2
-mikeToggleMute = 0
+mikeToggleMute = 3
 decreaseLevel = -2
 increaseLevel = 2
 
