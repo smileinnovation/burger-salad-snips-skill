@@ -1,4 +1,3 @@
-import logging
 import paho.mqtt.client as mqtt
 import json
 from led import set_led, Leds
@@ -30,8 +29,6 @@ class LedControl:
     '''
 
     def __init__(self, mqtt_host, mqtt_port):
-        self._logger = logging.getLogger('LedControl')
-        self._logger.info('Initializing')
         self._me = 'default'
 
         self._matrix = Leds()
@@ -47,7 +44,6 @@ class LedControl:
         """
         Will connect and subscribe to hermes Snips topics.
         """
-        self._logger.info("Connected with result code {0}".format(rc))
         self._runner.once(self._matrix.ready)
         client.subscribe([
             (self._SUB_ON_HOTWORD, 0),
@@ -79,28 +75,24 @@ class LedControl:
         Activate breathing effect when waking up.
         """
         self._runner.once(self._matrix.listening)
-        self._logger.info("=> wakeup: {}".format(payload))
 
     def backtosleep_event(self, payload):
         """
         Stop any effects when everything is done.
         """
         self._runner.once(self._matrix.clear)
-        self._logger.info("=> backtosleep: {}".format(payload))
 
     def listening_event(self, payload):
         """
         Activate the breathing effect when listening.
         """
         self._runner.start(self._matrix.listening)
-        self._logger.info("=> listening: {}".format(payload))
 
     def think_event(self, payload):
         """
         Activate the working effect if an intent was found.
         Else, activate once the error effect.
         """
-        self._logger.info("=> thinking: {}".format(payload))
         likelihood = 0
         if payload is not None and 'likelihood' in payload:
             likelihood = payload['likelihood']
@@ -111,40 +103,36 @@ class LedControl:
             self._runner.start(self._matrix.working)
 
     def tts_start_event(self, payload):
-        self._logger.info("=> tts start: {}".format(payload))
+        return 0
 
     def tts_finished_event(self, payload):
-        self._logger.info("=> tts finished: {}".format(payload))
+        return 0
 
     def intent_error_event(self, payload):
         """
         When an error is encountered activate the error effect.
         """
         self._runner.once(self._matrix.error)
-        self._logger.info("=> intent error: {}".format(payload))
 
     def intent_success_event(self, payload):
         """
         When success on an event, activate the ready effect.
         """
         self._runner.once(self._matrix.ready)
-        self._logger.info("=> intent success: {}".format(payload))
 
     def play_finished_event(self, payload):
-        self._logger.info("=> play finished: {}".format(payload))
+        return 0
 
     def unmanaged_event(self, payload):
         """
         When an unmanaged event happens, activate the error effect. 
         """
         self._runner.once(self._matrix.error)
-        self._logger.info("=> unmanaged: {}".format(payload))
 
     def on_message(self, client, userdata, message):
         if hasattr(message, 'payload') and message.payload:
             try:
                 payload = json.loads(message.payload.decode('utf-8'))
-                self._logger.info("LedControl has received {}".format(message.topic))
                 self.event_to_func(message.topic)(payload)
             except Exception as e:
                 print(e)
