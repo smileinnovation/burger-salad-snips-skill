@@ -8,10 +8,10 @@ class Mixer():
     """
     def __init__(self):
         self._outMixer = alsaaudio.Mixer("PCM")
-        self._outLevel = self._outMixer.getvolume()[0] if self._outMixer.getvolume()[0] >= 0 else 50
+        self._outLevel = self._outMixer.getvolume()[0] if self._outMixer.getvolume()[0] >= 0 else 90
         self._outMuted = self._outMixer.getmute()
         self._inMuted = False
-        
+
     def toggleMike(self):
         """
         Mutes the microphone.
@@ -30,6 +30,7 @@ class Mixer():
         """
         self._outMuted = True if self._outMuted == False else False
         self._outMixer.setmute(self._outMuted)
+        return self._outMuted
 
     def setVolume(self, value):
         """
@@ -42,3 +43,4 @@ class Mixer():
             newValue = 100
         self._outMixer.setvolume(newValue)
         self._outLevel = newValue
+

@@ -44,11 +44,7 @@ class Leds:
         """
         for led in range(num):
             self.image[led] = set_led(blue=40)
-        print(num)
-        print(self.image)
         self.send()
-        time.sleep(0.3)
-
         
     def listening(self, maxBrightness=100, speed=0.05):
         """
@@ -89,6 +85,11 @@ class Leds:
         """Turns all the leds off"""
         for led in range(led_count):
             self.image[led] = set_led()
+        self.send()
+    def mute(self):
+        """Turns all the leds off"""
+        for led in range(led_count):
+            self.image[led] = set_led(red=50)
         self.send()
             
     def working(self, speed=0.05, length=4):
