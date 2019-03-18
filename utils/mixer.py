@@ -8,7 +8,7 @@ class Mixer():
     """
     def __init__(self):
         self._outMixer = alsaaudio.Mixer("PCM")
-        self._outLevel = self._outMixer.getvolume()[0] if self._outMixer.getvolume()[0] >= 0 else 0
+        self._outLevel = self._outMixer.getvolume()[0] if self._outMixer.getvolume()[0] >= 0 else 50
         self._outMuted = self._outMixer.getmute()
         self._inMuted = False
         
@@ -16,9 +16,9 @@ class Mixer():
         """
         Mutes the microphone.
         """
-        print("Mute microphone")
         if self._inMuted == False:
             publish.single("hermes/hotword/toggleOff", '{"siteId": "default"}', hostname="localhost")
+            publish.single("hermes/asr/stopListening", '{"siteId": "default"}', hostname="localhost")
             self._inMuted = True
         else:
             publish.single("hermes/hotword/toggleOn", '{"siteId": "default"}', hostname="localhost")
@@ -28,10 +28,6 @@ class Mixer():
         """
         Mutes/unmutes the audio output
         """
-        if (self._outMuted):
-            print("Unmuting")
-        else:
-            print("Muting")
         self._outMuted = True if self._outMuted == False else False
         self._outMixer.setmute(self._outMuted)
 
@@ -40,9 +36,8 @@ class Mixer():
         Sets the output volume - or + the value
         """
         newValue = self._outLevel + value
-        print("Setting volume to {} dB".format(str(newValue)))
-        if newValue < 50:
-            newValue = 50
+        if newValue < 0:
+            newValue = 0
         elif newValue > 100:
             newValue = 100
         self._outMixer.setvolume(newValue)

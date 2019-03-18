@@ -25,11 +25,8 @@ class Leds:
         context = zmq.Context()
         self.socket = context.socket(zmq.PUSH)
         self.socket.connect('tcp://{0}:{1}'.format(matrix_ip, everloop_port))
-        self.driver_config_proto = driver_pb2.DriverConfig()
         for led in range(led_count):
             self.image.append(set_led())
-        self.driver_config_proto.image.led.extend(self.image)
-        self.socket.send(self.driver_config_proto.SerializeToString())
         self.breath = 0
         self.breathIn = True
         self.workingLed = 0
@@ -41,6 +38,18 @@ class Leds:
         self.driver_config.image.led.extend(self.image)
         self.socket.send(self.driver_config.SerializeToString())
 
+    def volume(self, num=0):
+        """
+        Shows x blue leds depending on % of volume
+        """
+        for led in range(num):
+            self.image[led] = set_led(blue=40)
+        print(num)
+        print(self.image)
+        self.send()
+        time.sleep(0.3)
+
+        
     def listening(self, maxBrightness=100, speed=0.05):
         """
         Call this when the bot is listening.

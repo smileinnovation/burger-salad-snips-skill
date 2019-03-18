@@ -1,6 +1,8 @@
 import zmq
 import time
 import sys
+from led import set_led, Leds
+from LedRunner import LedRunner
 from matrix_io.proto.malos.v1 import driver_pb2
 from matrix_io.proto.malos.v1 import io_pb2
 from multiprocessing import Process
@@ -33,17 +35,35 @@ def gpio_callback(msg):
     gpioValues = ('{0:016b}'.format(data.values))
     gpioValues = gpioValues[::-1]
     gpioValues = list(gpioValues)
-    if gpioValues[audioToggleMute] == '0':
+        _matrix = Leds()
+    _runner = LedRunner()
+    gpioValues = list(gpioValues)
+    global reset
+    if gpioValues[audioToggleMute] == '0' and reset == True:
         mixer.toggleOutMute()
-    if gpioValues[audioLevelDown] == '0':
+        reset = False
+    elif gpioValues[audioLevelDown] == '0' and reset == True:
         mixer.setVolume(decreaseLevel)
-    if gpioValues[audioLevelUp] == '0':
+        reset = False
+        _runner.once(_matrix.clear)
+        _runner.once(_matrix.volume, int((18/100)*(mixer._outLevel+decreaseLevel)))
+        _runner.once(_matrix.clear)  
+    elif gpioValues[audioLevelUp] == '0' and reset == True:
         mixer.setVolume(increaseLevel)
-    if gpioValues[mikeToggleMute] == '0':
+        reset = False
+        _runner.once(_matrix.clear)  
+        _runner.once(_matrix.volume, int((18/100)*(mixer._outLevel+increaseLevel)))
+        _runner.once(_matrix.clear)  
+    elif gpioValues[mikeToggleMute] == '0' and reset == True:
+        reset = False
         mixer.toggleMike()
+    elif gpioValues[audioToggleMute] == '1' and gpioValues[audioLevelDown] == '1' and gpioValues[audioLevelUp] == '1' and gpioValues[mikeToggleMute] == '1':
+        reset = True
 
+    
 if __name__ == "__main__":
     ioloop.install()
+    reset = False
     Process(target=driver_keep_alive, args=(matrix_ip, gpio_port, 1)).start()
     Process(target=register_data_callback, args=(gpio_callback, matrix_ip, gpio_port)).start()
     config_gpio_read()
