@@ -6,7 +6,7 @@ echo "deb https://apt.matrix.one/raspbian $(lsb_release -sc) main" | sudo tee /e
 sudo apt-get update
 
 #Checking if all the packages needed are installed
-sudo apt-get install --yes python3-pip matrixio-kernel-modules matrixio-malos
+sudo apt-get install --yes python3-pip matrixio-kernel-modules matrixio-malos ufw
 
 #Setting config file for Matrix & Snips
 sudo sed -i 's/# mike = "Built-in Microphone"/mike = "MATRIXIO SOUND: - (hw:2,0)"/g' /etc/snips.toml
@@ -26,3 +26,6 @@ sudo cp "/var/lib/snips/skills/burger-salad-snips-skill/inference_engine_vpu_arm
 sudo udevadm control --reload-rules
 sudo udevadm trigger
 sudo ldconfig
+
+sudo ufw default deny incoming
+sudo ufw allow ssh
