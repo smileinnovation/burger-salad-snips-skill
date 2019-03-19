@@ -23,6 +23,7 @@ class Mixer():
         else:
             publish.single("hermes/hotword/toggleOn", '{"siteId": "default"}', hostname="localhost")
             self._inMuted = False
+        return self._inMuted
 
     def toggleOutMute(self):
         """

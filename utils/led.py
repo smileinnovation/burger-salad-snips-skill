@@ -86,12 +86,33 @@ class Leds:
         for led in range(led_count):
             self.image[led] = set_led()
         self.send()
-    def mute(self):
-        """Turns all the leds off"""
+
+    def mute(self, out, mic):
+        """Lights up left and right leds to red"""
         for led in range(led_count):
-            self.image[led] = set_led(red=50)
+            self.image[led] = set_led()
+        if out:
+            self.image[2] = set_led(red=50)
+            self.image[3] = set_led(red=50)
+            self.image[4] = set_led(red=50)
+            self.image[5] = set_led(red=50)
+            self.image[6] = set_led(red=50)
+            self.image[11] = set_led(red=50)
+            self.image[12] = set_led(red=50)
+            self.image[13] = set_led(red=50)
+            self.image[14] = set_led(red=50)
+            self.image[15] = set_led(red=50)
+        if mic:
+            self.image[0] = set_led(blue=50)
+            self.image[1] = set_led(blue=50)
+            self.image[7] = set_led(blue=50)
+            self.image[8] = set_led(blue=50)
+            self.image[9] = set_led(blue=50)
+            self.image[10] = set_led(blue=50)
+            self.image[16] = set_led(blue=50)
+            self.image[17] = set_led(blue=50)
         self.send()
-            
+
     def working(self, speed=0.05, length=4):
         """
         Call this when processing information.

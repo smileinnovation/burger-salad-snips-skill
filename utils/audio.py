@@ -29,11 +29,10 @@ def config_gpio_read():
     config.timeout_after_last_ping = 5
     socket.send(config.SerializeToString())
 
-_matrix = Leds()
 _runner = LedRunner()
 reset = True
-toggle = True
-
+toggleMic = True
+toggleOut = True
 
 def gpio_callback(msg):
     data = io_pb2.GpioParams().FromString(msg[0])
@@ -43,14 +42,14 @@ def gpio_callback(msg):
     global _runner
     gpioValues = list(gpioValues)
     global reset
-    global toggle
-    muted = mixer._outMuted
-    if gpioValues[audioToggleMute] == '0' and toggle == True:
+    global toggleMic
+    global toggleOut
+    if gpioValues[audioToggleMute] == '0' and toggleOut == True:
         if mixer.toggleOutMute():
-            _runner.start(_matrix.mute)
+            _runner.start(_matrix.mute, mixer._outMuted, mixer._inMuted)
         else:
-            _runner.once(_matrix.clear)
-        toggle = False
+            _runner.once(_matrix.mute, mixer._outMuted, mixer._inMuted)
+        toggleOut = False
     elif gpioValues[audioLevelDown] == '0' and mixer._outMuted == False:
         mixer.setVolume(decreaseLevel)
         reset = False
@@ -59,14 +58,19 @@ def gpio_callback(msg):
         mixer.setVolume(increaseLevel)
         reset = False
         _runner.start(_matrix.volume, int((18/100)*(mixer._outLevel)))
-    elif gpioValues[mikeToggleMute] == '0':
-        reset = False
-        mixer.toggleMike()
+    elif gpioValues[mikeToggleMute] == '0' and toggleMic == True:
+        if mixer.toggleMike():
+            _runner.start(_matrix.mute, mixer._outMuted, mixer._inMuted)
+        else:
+            _runner.once(_matrix.mute, mixer._outMuted, mixer._inMuted)
+        toggleMic = False
     elif reset == False:
         _runner.once(_matrix.clear)
         reset = True
-    elif toggle == False and gpioValues[audioToggleMute] == '1':
-        toggle = True
+    elif toggleOut == False and gpioValues[audioToggleMute] == '1':
+        toggleOut = True
+    elif toggleMic == False and gpioValues[mikeToggleMute] == '1':
+        toggleMic = True
 
 if __name__ == "__main__":
     ioloop.install()
