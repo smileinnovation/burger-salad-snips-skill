@@ -1,5 +1,7 @@
 import paho.mqtt.client as mqtt
 import json
+import zmq
+from pyObj import Data
 from led import set_led, Leds
 from LedRunner import LedRunner
 
@@ -31,10 +33,11 @@ class LedControl:
     def __init__(self, mqtt_host, mqtt_port):
         self._me = 'default'
 
-        self._matrix = Leds()
-        self._runner = LedRunner()
-        self._runner.start(self._matrix.startup)
-
+        self._context = zmq.Context()
+        self._runner = self._context.socket(zmq.REQ)
+        self._runner.connect ("tcp://localhost:1337")
+        self._runner.send_pyobj(Data("startup", loop=True))
+        self._runner.recv()
         self.mqtt_client = None
         self.mqtt_host = mqtt_host
         self.mqtt_port = mqtt_port
@@ -44,7 +47,8 @@ class LedControl:
         """
         Will connect and subscribe to hermes Snips topics.
         """
-        self._runner.once(self._matrix.ready)
+        self._runner.send_pyobj(Data("ready"))
+        self._runner.recv()
         client.subscribe([
             (self._SUB_ON_HOTWORD, 0),
             (self._SUB_ON_SAY, 0),
@@ -74,19 +78,22 @@ class LedControl:
         """
         Activate breathing effect when waking up.
         """
-        self._runner.once(self._matrix.listening)
+        self._runner.send_pyobj(Data("listening"))
+        self._runner.recv()
 
     def backtosleep_event(self, payload):
         """
         Stop any effects when everything is done.
         """
-        self._runner.once(self._matrix.clear)
+        self._runner.send_pyobj(Data("clear"))
+        self._runner.recv()
 
     def listening_event(self, payload):
         """
         Activate the breathing effect when listening.
         """
-        self._runner.start(self._matrix.listening)
+        self._runner.send_pyobj(Data("listening", loop=True))
+        self._runner.recv()
 
     def think_event(self, payload):
         """
@@ -98,36 +105,41 @@ class LedControl:
             likelihood = payload['likelihood']
 
         if likelihood == 0:
-            self._runner.once(self._matrix.error)
+            self._runner.send_pyobj(Data("error"))
+            self._runner.recv()
         else:
-            self._runner.start(self._matrix.working)
+            self._runner.send_pyobj(Data("working", loop=True))
+            self._runner.recv()
 
     def tts_start_event(self, payload):
-        return 0
+        pass
 
     def tts_finished_event(self, payload):
-        return 0
+        pass
 
     def intent_error_event(self, payload):
         """
         When an error is encountered activate the error effect.
         """
-        self._runner.once(self._matrix.error)
+        self._runner.send_pyobj(Data("error"))
+        self._runner.recv()
 
     def intent_success_event(self, payload):
         """
         When success on an event, activate the ready effect.
         """
-        self._runner.once(self._matrix.ready)
+        self._runner.send_pyobj(Data("ready"))
+        self._runner.recv()
 
     def play_finished_event(self, payload):
-        return 0
+        pass
 
     def unmanaged_event(self, payload):
         """
         When an unmanaged event happens, activate the error effect. 
         """
-        self._runner.once(self._matrix.error)
+        self._runner.send_pyobj(Data("error"))
+        self._runner.recv()
 
     def on_message(self, client, userdata, message):
         if hasattr(message, 'payload') and message.payload:
@@ -144,15 +156,14 @@ class LedControl:
         return mqtt_client
 
     def start(self):
-        self._runner.once(self._matrix.ready)
         self.mqtt_client.connect(self.mqtt_host, self.mqtt_port, 60)
         self.mqtt_client.loop_start()
 
     def stop(self):
         self.mqtt_client.loop_stop()
         self.mqtt_client.disconnect()
-        self._runner.stop()
-        self._runner.once(self._matrix.clear)
+        self._runner.send_pyobj(Data("clear"))
+        self._runner.recv()
 
 if __name__ == '__main__':
     a = LedControl('localhost', 1883)

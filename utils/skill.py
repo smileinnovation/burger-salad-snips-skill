@@ -1,12 +1,19 @@
 #!/usr/bin/env python3
 
-from matrixLedController import LedControl
+from snipsLeds import LedControl
+import time
 
+connected = False
+
+#while not connected:
+#    try:
 ledControl = LedControl('localhost', 1883)
-
+#        connected = True
+#    except:
+#        print("connecting to led service")
+#        time.sleep(1)
 import configparser
 import io
-import time
 import queue
 from foodinference import FoodInference
 from hermes_python.hermes import Hermes
@@ -17,7 +24,6 @@ from matrix_io.proto.malos.v1 import driver_pb2
 from matrix_io.proto.malos.v1 import io_pb2
 from multiprocessing import Process
 from zmq.eventloop import ioloop
-from callbacks import register_data_callback
 from mixer import Mixer
 
 matrix_ip = '127.0.0.1'

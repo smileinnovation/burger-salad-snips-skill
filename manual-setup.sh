@@ -14,8 +14,10 @@ sudo sed -i 's/# mike = "Built-in Microphone"/mike = "MATRIXIO SOUND: - (hw:2,0)
 #Install the audio service
 sudo pip3 install -r /var/lib/snips/skills/burger-salad-snips-skill/requirements
 sudo cp /var/lib/snips/skills/burger-salad-snips-skill/audio-snips.service /lib/systemd/system/
+sudo cp /var/lib/snips/skills/burger-salad-snips-skill/led-snips.service /lib/systemd/system/
 sudo systemctl daemon-reload
 sudo systemctl enable audio-snips.service
+sudo systemctl enable led-snips.service
 
 #Giving snips access to USB ports and video feed.
 sudo usermod -a -G video _snips-skills
