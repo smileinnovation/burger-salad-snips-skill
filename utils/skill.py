@@ -1,17 +1,11 @@
 #!/usr/bin/env python3
 
 from snipsLeds import LedControl
-import time
 
-connected = False
-
-#while not connected:
-#    try:
+#Initialize this first in order to have the loading animation
 ledControl = LedControl('localhost', 1883)
-#        connected = True
-#    except:
-#        print("connecting to led service")
-#        time.sleep(1)
+
+import time
 import configparser
 import io
 import queue

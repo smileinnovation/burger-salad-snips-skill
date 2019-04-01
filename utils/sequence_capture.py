@@ -5,7 +5,6 @@ import numpy as np
 import picamera
 import picamera.array
 import json
-import logging
 
 import GGConnect
 
@@ -13,9 +12,6 @@ ARGS                 = 244,244
 camera               = picamera.PiCamera()
 MODEL = 'graphs/mobilenetv2_1_00_224_burger_salad_2'
 
-logging.getLogger().setLevel(logging.INFO)
-
-logging.info('Loading graph')
 net = cv.dnn.readNet(MODEL+'.xml', MODEL+'.bin')
 
 net.setPreferableBackend(cv.dnn.DNN_BACKEND_INFERENCE_ENGINE)
@@ -27,13 +23,11 @@ classes = { v:k for k, v in classes.items() }
 
 # make a first "forward" pass to make the model going in
 # the stick memory
-logging.info('Loading blank image to forward network once')
 blank = np.zeros((224, 224, 3), np.uint8)
 blank[:] = (255,255,255)
 blob = cv.dnn.blobFromImage(blank)
 net.setInput(blob)
 net.forward()
-logging.info('done')
 
 def capture(topic=None, gg=None):
     """

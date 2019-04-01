@@ -107,16 +107,18 @@ def gpio_callback(msg):
         
 if __name__ == "__main__":
     ioloop.install()
-
+    #Keep the connection alive
     Process(target=driver_keep_alive, args=(matrix_ip, gpio_port, 1)).start()
-
+    #Configure the gpio read interval
     config_gpio_read()
+    #Connect to the Matrix GPIO server
     context = zmq.Context()
     socket = context.socket(zmq.SUB)
     data_port = gpio_port + 3
     socket.connect('tcp://{0}:{1}'.format(matrix_ip, data_port))
     socket.setsockopt(zmq.SUBSCRIBE, b'')
     stream = zmqstream.ZMQStream(socket)
+    #Wait for a stream of data to come
     stream.on_recv(gpio_callback)
-
+    #Loop
     ioloop.IOLoop.instance().start()

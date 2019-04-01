@@ -102,7 +102,10 @@ class LedService():
         self.clear()
 
     def mute(self, out, mic):
-        """Lights up left and right leds to red"""
+        """
+        Lights up left and right leds to red when audio is muted
+        Lights up bottom and top leds to blue when mic is muted
+        """
         if out or mic:
             self._muted = True
         elif not out and not mic:

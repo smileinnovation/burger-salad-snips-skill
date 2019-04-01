@@ -8,6 +8,7 @@ class SnipsConfigParser(configparser.SafeConfigParser):
         return {section: {option_name : option for option_name, option in self.items(section)} for section in self.sections()}
 
 def read_configuration_file(configuration_file):
+    """Read the config file and parse it"""
     try:
         with io.open(configuration_file, encoding=CONFIGURATION_ENCODING_FORMAT) as f:
             conf_parser = SnipsConfigParser()
