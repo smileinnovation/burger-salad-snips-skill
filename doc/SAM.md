@@ -14,8 +14,8 @@ Once logged in install your assistant with either the [french](https://console.s
 sam install assistant
 ```
 Select the assistant.
-When prompt for `language` enter `en` or `fr` if you are using a french assistant.
-And when prompt with `greengrass` enter `false` if you don't want to use it.
+When prompt for `language` press `enter` or write `fr` if you are using a french assistant.
+And when prompt with `greengrass` press `enter` or write `true` if you want to use greengrass.
 You will need to reboot for the microphone to work.
 ```
 sam reboot
