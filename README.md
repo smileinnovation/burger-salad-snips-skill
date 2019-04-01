@@ -12,7 +12,7 @@ For this skill to work you will need some specific hardware.
 ## Requirements
 
 - 1 Raspberry Pi 3 B (or above)
-- 16 GB Micro SD card
+- 16 GB Micro SD card (or 8GB)
 - Raspbian Stretch installed on the Raspberry Pi ([how to install](https://www.raspberrypi.org/documentation/installation/installing-images/ "Raspbian Stretch installation tutorial"))
 - 1 Movidius USB V1/V2
 - 1 Raspberry Pi Camera V2.1
@@ -24,24 +24,3 @@ For this skill to work you will need some specific hardware.
 - [Raspberry Pi](./doc/PI.md "Pi OS installation and setup")
 - [Sam](./doc/SAM.md "sam installation")
 - [Greengrass](./doc/GREENGRASS.md "Greengrass setup") (optional)
-
-## Known Issues
-    
-- **Can not init USB device: NC_DEVICE_NOT_FOUND in function 'initPlugin'**:
-If you encounter this error first try to unplug and plug the USB device. If the error persists, you will need to do the following commands:  
-Go to the folder where the skill is (usually located at `/var/lib/snips/skills/burger-salad-snips-skill`)
-```
-$> sudo cp "inference_engine_vpu_arm/deployment_tools/inference_engine/external/97-myriad-usbboot.rules" /etc/udev/rules.d/
-$> sudo udevadm control --reload-rules
-$> sudo udevadm trigger
-$> sudo ldconfig
-```
-Now it should work.
-  
-- **Could not access camera**:
-If you encounter this error, try these commands:  
-```
-sudo usermod -a -G video _snips-skills
-sudo usermod -a -G users _snips-skills
-```
-Restart the services and now it should work.
