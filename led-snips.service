@@ -5,7 +5,7 @@ After=sys-devices-platform-soc-soc:audio-bcm2835_alsa-sound-card0.device
 
 [Service]
 Type=idle
-ExecStart= /usr/bin/python3 /var/lib/snips/skills/burger-salad-snips-skill/utils/services/ledService.py
+ExecStart= /usr/bin/python3 /var/lib/snips/skills/burger-salad-snips-skill/utils/ledService.py
 
 [Install]
 WantedBy=multi-user.target

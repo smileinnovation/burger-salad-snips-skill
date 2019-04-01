@@ -62,6 +62,8 @@ class LedService():
         num = int(num)
         for led in range(num):
             self._leds[led] = self.setLed(blue=40)
+        for led in range(self._numLeds-num):
+            self._leds[led+num] = self.setLed()
         self.send()
 
     def listening(self, maxBrightness=100, speed=0.05):
