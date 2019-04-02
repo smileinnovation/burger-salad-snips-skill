@@ -36,7 +36,7 @@ MQTT_IP_ADDR = "localhost"
 MQTT_PORT = 1883
 MQTT_ADDR = "{}:{}".format(MQTT_IP_ADDR, str(MQTT_PORT))
 
-ALL_INTENTS = ["segar:quoi","segar:stop","segar:again","segar:start"]
+ALL_INTENTS = ["segar:what","segar:stop","segar:again","segar:start"]
 
 SKILL_MESSAGES = {
     'fr': {
